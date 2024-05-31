@@ -1,4 +1,7 @@
 {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "python.linting.lintOnSave": true,
     "python.testing.pytestArgs": [
         "."
     ],
