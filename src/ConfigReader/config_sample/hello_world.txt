@@ -1,0 +1,3 @@
+[info]
+output_type = string
+functions = print

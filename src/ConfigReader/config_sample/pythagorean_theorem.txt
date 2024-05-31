@@ -1,0 +1,3 @@
+[info]
+output_type = float
+functions = tuplesquare, sum, math.sqrt
