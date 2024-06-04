@@ -1,6 +1,8 @@
-import configparser
+from configparser import ConfigParser
 
 
-# Write config file into a dictionary
+# Import config file
 def read_config(config_file):
-    return
+    cp = ConfigParser()
+    cp.read(config_file)
+    return cp
