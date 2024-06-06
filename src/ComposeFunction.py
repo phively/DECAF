@@ -1,4 +1,5 @@
 import functools
+from importlib import import_module
 
 
 # Recursively compose 1 or more functions
@@ -18,12 +19,25 @@ def parse_funcstring(funcstring):
     # If exception then assume builtin object
     try:
         obj, name = funcstring.rsplit(".", 1)
-    except:
+    except ValueError:
         obj, name = ["builtins", funcstring]
     return [obj, name]
 
 
-# Import a list of modules
+# Return a list of modules
+def import_modules_list(imports):
+    # Convert string to list
+    if imports != list(imports):
+        imports = [imports]
+    modules = list()
+    for i in imports:
+        modules.append(import_module(i))
+    return modules
+
+
+# Manually add module to global imports
+def add_to_global_imports(module):
+    globals()[module.__name__] = module
 
 
 # Return a function from a string (getattr)

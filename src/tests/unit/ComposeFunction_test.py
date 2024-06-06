@@ -32,3 +32,17 @@ def test_parse_funcstring():
     ]
     # Access a built-in function
     assert ComposeFunction.parse_funcstring("print") == ["builtins", "print"]
+
+
+def test_import_modules():
+    # Single import as list
+    m = ComposeFunction.import_modules_list(["re"])
+    assert m[0].sub("a", "", "abc") == "bc"
+    # Single import as string
+    n = ComposeFunction.import_modules_list("re")
+    assert n[0].sub("a", "", "abc") == "bc"
+    # Import to globals
+    ComposeFunction.add_to_global_imports(m[0])
+    # Custom import
+
+    # Multi import

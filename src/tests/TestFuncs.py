@@ -1,9 +1,17 @@
 import math
 
 
-def tuplesquare(xs):
+def tuplepow(xs, pow):
     out = ()
     # Append each x^2 to out
     for x in xs:
-        out += (math.pow(x, 2),)
+        out += (math.pow(x, pow),)
     return out
+
+
+def tuplesquare(xs):
+    return tuplepow(xs, 2)
+
+
+def tuplecube(xs):
+    return tuplecube(xs, 3)
