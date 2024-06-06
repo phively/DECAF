@@ -19,3 +19,16 @@ def test_eval_functions():
     assert ComposeFunction.eval_functions(pytuple, tuplesquare, sum) == 25.0
     # sqrt(3^2 + 4^2)
     assert ComposeFunction.eval_functions(pytuple, tuplesquare, sum, math.sqrt) == 5.0
+
+
+def test_parse_funcstring():
+    # Basic object.function
+    assert ComposeFunction.parse_funcstring("ab.cd") == ["ab", "cd"]
+    assert ComposeFunction.parse_funcstring("math.mod") == ["math", "mod"]
+    # Extract function from longer.object
+    assert ComposeFunction.parse_funcstring("tests.TestFuncs.tuplesquare") == [
+        "tests.TestFuncs",
+        "tuplesquare",
+    ]
+    # Access a built-in function
+    assert ComposeFunction.parse_funcstring("print") == ["builtins", "print"]
