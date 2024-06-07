@@ -41,3 +41,8 @@ def add_to_global_imports(module):
 
 
 # Return a function from a string (getattr)
+def get_function(module, funcname):
+    try:
+        return getattr(module, funcname)
+    except ModuleNotFoundError:
+        return None

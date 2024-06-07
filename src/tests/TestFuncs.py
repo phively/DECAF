@@ -14,4 +14,4 @@ def tuplesquare(xs):
 
 
 def tuplecube(xs):
-    return tuplecube(xs, 3)
+    return tuplepow(xs, 3)

@@ -1,6 +1,7 @@
 import ComposeFunction
 from tests.TestFuncs import tuplesquare
 import math
+import builtins
 
 
 def test_compose_functions():
@@ -44,5 +45,21 @@ def test_import_modules():
     # Import to globals
     ComposeFunction.add_to_global_imports(m[0])
     # Custom import
-
+    ci = ComposeFunction.import_modules_list("tests.TestFuncs")
+    tup = (1, 2, 3)
+    assert ci[0].tuplecube(tup) == (1, 8, 27)
     # Multi import
+    mi = ComposeFunction.import_modules_list(["math", "re"])
+    assert mi[0].sqrt(16.0) == 4.0
+    assert mi[1].sub("a", "", "abc") == "bc"
+
+
+def test_get_function():
+    # Basic function equivalence
+    assert ComposeFunction.get_function(math, "sqrt") == math.sqrt
+    assert ComposeFunction.get_function(builtins, "print") == print
+    # Function operations
+    assert ComposeFunction.get_function(math, "sqrt")(16.0) == 4.0
+    assert ComposeFunction.get_function(builtins, "print")("Hello World!") == print(
+        "Hello World!"
+    )
