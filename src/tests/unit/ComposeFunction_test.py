@@ -22,7 +22,7 @@ def test_eval_functions():
     assert ComposeFunction.eval_functions(pytuple, tuplesquare, sum, math.sqrt) == 5.0
 
 
-def test_parse_functions():
+def test_parse_funcstring():
     # Basic object.function
     assert ComposeFunction._parse_funcstring("ab.cd") == ["ab", "cd"]
     assert ComposeFunction._parse_funcstring("math.mod") == ["math", "mod"]
@@ -36,41 +36,55 @@ def test_parse_functions():
 
 
 def test_parse_functions():
+    # String
+    assert ComposeFunction._parse_functions("print") == [["builtins"], ["print"]]
+    assert ComposeFunction._parse_functions("math.sqrt") == [["math"], ["sqrt"]]
     # Single function
-    assert ComposeFunction.parse_functions(["ab.cd"]) == [["ab", "cd"]]
+    assert ComposeFunction._parse_functions(["ab.cd"]) == [["ab"], ["cd"]]
     # Multiple functions
-    assert ComposeFunction.parse_functions(["ab.cd", "ef.gh", "ij.kl.mn"]) == [
-        ["ab", "cd"],
-        ["ef", "gh"],
-        ["ij.kl", "mn"],
+    assert ComposeFunction._parse_functions(["ab.cd", "ef.gh", "ij.kl.mn"]) == [
+        ["ab", "ef", "ij.kl"],
+        ["cd", "gh", "mn"],
     ]
 
 
 def test_import_modules():
     # Single import as list
-    m = ComposeFunction.import_modules_list(["re"])
+    m = ComposeFunction._import_modules_list(["re"])
     assert m[0].sub("a", "", "abc") == "bc"
     # Single import as string
-    n = ComposeFunction.import_modules_list("re")
+    n = ComposeFunction._import_modules_list("re")
     assert n[0].sub("a", "", "abc") == "bc"
     # Import to globals
     ComposeFunction.add_to_global_imports(m[0])
     # Custom import
-    ci = ComposeFunction.import_modules_list("tests.TestFuncs")
+    ci = ComposeFunction._import_modules_list("tests.TestFuncs")
     tup = (1, 2, 3)
     assert ci[0].tuplecube(tup) == (1, 8, 27)
     # Multi import
-    mi = ComposeFunction.import_modules_list(["math", "re"])
+    mi = ComposeFunction._import_modules_list(["math", "re"])
     assert mi[0].sqrt(16.0) == 4.0
     assert mi[1].sub("a", "", "abc") == "bc"
 
 
 def test_get_function():
     # Basic function equivalence
-    assert ComposeFunction.get_function(math, "sqrt") == math.sqrt
-    assert ComposeFunction.get_function(builtins, "print") == print
+    assert ComposeFunction._get_function(math, "sqrt") == math.sqrt
+    assert ComposeFunction._get_function(builtins, "print") == print
     # Function operations
-    assert ComposeFunction.get_function(math, "sqrt")(16.0) == 4.0
-    assert ComposeFunction.get_function(builtins, "print")("Hello World!") == print(
+    assert ComposeFunction._get_function(math, "sqrt")(16.0) == 4.0
+    assert ComposeFunction._get_function(builtins, "print")("Hello World!") == print(
         "Hello World!"
     )
+
+
+def test_get_functions():
+    # Test single functions
+    assert ComposeFunction._get_functions(math, "sqrt")[0] == math.sqrt
+    assert ComposeFunction._get_functions([math], ["sqrt"])[0] == math.sqrt
+    # Test multiple functions
+    mf = ComposeFunction._get_functions([math, builtins], ["sqrt", "print"])
+    assert mf[0] == math.sqrt
+    assert mf[1] == builtins.print
+    # Test evaluation
+    assert mf[0](9.0) == math.sqrt(9.0)

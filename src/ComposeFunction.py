@@ -24,18 +24,21 @@ def _parse_funcstring(funcstring):
     return [obj, name]
 
 
-# Parse a list of strings into a list of parse_funstring
-def parse_functions(funclist):
-    out = list()
+# Parse a list of strings into a list of [modules, functions]
+def _parse_functions(funclist):
+    mods = list()
+    fns = list()
     if funclist != list(funclist):
         funclist = [funclist]
     for fs in funclist:
-        out.append(_parse_funcstring(fs))
-    return out
+        mod_fn = _parse_funcstring(fs)
+        mods.append(mod_fn[0])
+        fns.append(mod_fn[1])
+    return [mods, fns]
 
 
 # Return a list of modules
-def import_modules_list(imports):
+def _import_modules_list(imports):
     # Convert string to list
     if imports != list(imports):
         imports = [imports]
@@ -51,8 +54,19 @@ def add_to_global_imports(module):
 
 
 # Return a function from a string (getattr)
-def get_function(module, funcname):
+def _get_function(module, funcname):
     try:
         return getattr(module, funcname)
     except ModuleNotFoundError:
         return None
+
+
+# Return a list of executable functions
+def _get_functions(modules, funcnames):
+    out = list()
+    if funcnames != list(funcnames):
+        modules = [modules]
+        funcnames = [funcnames]
+    for m, f in zip(modules, funcnames):
+        out.append(_get_function(m, f))
+    return out
