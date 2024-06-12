@@ -14,7 +14,7 @@ def eval_functions(input, *functions):
 
 
 # Parse an "object.function" string into two strings
-def parse_funcstring(funcstring):
+def _parse_funcstring(funcstring):
     # Try splitting on rightmost . to pull function name
     # If exception then assume builtin object
     try:
@@ -22,6 +22,16 @@ def parse_funcstring(funcstring):
     except ValueError:
         obj, name = ["builtins", funcstring]
     return [obj, name]
+
+
+# Parse a list of strings into a list of parse_funstring
+def parse_functions(funclist):
+    out = list()
+    if funclist != list(funclist):
+        funclist = [funclist]
+    for fs in funclist:
+        out.append(_parse_funcstring(fs))
+    return out
 
 
 # Return a list of modules

@@ -6,8 +6,10 @@ pythagorean = ["tests.TestFuncs/tuplesquare", "sum", "math.sqrt"]
 
 def test_parse_funcstring_hello_world():
     # Construct print from builtins
-    hwfs = cf.parse_funcstring("print")
+    hwfs = cf._parse_funcstring("print")
     assert hwfs == ["builtins", "print"]
+    # hwfs = cf.parse_functions("print")
+    # assert hwfs == [["builtins", "print"]]
     hwm = cf.import_modules_list(hwfs[0])
     assert hwm[0].print == print
     # Test constructed function usage
@@ -19,7 +21,7 @@ def test_parse_funcstring_hello_world():
     )
 
 
-def test_parse_funcstring_pythagorean():
+def test_parse_functions_pythagorean():
     # Parse functions list
     return
 
