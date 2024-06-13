@@ -86,4 +86,10 @@ def construct_functions_list(stringlist):
 def eval_functions_list(input, stringlist):
     # Construct functions
     funcs = construct_functions_list(stringlist)
-    return eval_functions(input, *funcs)
+    try:
+        return eval_functions(input, *funcs)
+    except TypeError:
+        out = list()
+        for i in input:
+            out.append(eval_functions(i, *funcs))
+        return out

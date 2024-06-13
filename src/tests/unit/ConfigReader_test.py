@@ -16,10 +16,14 @@ def test_read_config():
     assert hw["info"]["output_type"] == "string"
     assert pt.sections() == ["info", "control"]
     assert list(pt["control"]) == ["functions"]
-    assert pt["control"]["functions"] == "tuplesquare, sum, math.sqrt"
+    assert pt["control"]["functions"] == "tests.TestFuncs.tuplesquare, sum, math.sqrt"
 
 
 def test_parse_functions():
     hw, pt = read_test_configs()
     assert ConfigReader.parse_functions(hw) == ["print"]
-    assert ConfigReader.parse_functions(pt) == ["tuplesquare", "sum", "math.sqrt"]
+    assert ConfigReader.parse_functions(pt) == [
+        "tests.TestFuncs.tuplesquare",
+        "sum",
+        "math.sqrt",
+    ]
