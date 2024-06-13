@@ -39,7 +39,7 @@ def test_parse_eval_functions_pythagorean():
     assert pymodfuns[2](25.0) == math.sqrt(25.0)
     # Batch eval
     assert cf.eval_functions(pytuple, pymodfuns[0], pymodfuns[1], pymodfuns[2]) == 5.0
-    # assert cf.eval_functions(pytuple, pymodfuns) == 5.0
+    assert cf.eval_functions(pytuple, *pymodfuns) == 5.0
 
 
 def test_import_and_parse():
