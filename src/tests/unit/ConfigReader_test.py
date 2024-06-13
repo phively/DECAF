@@ -1,7 +1,9 @@
 import ConfigReader
 
+path = "src/tests/config/"
 
-def read_test_configs(path="src/tests/config/"):
+
+def read_test_configs():
     hw = ConfigReader.read_config(path + "hello_world.ini")
     pt = ConfigReader.read_config(path + "pythagorean_theorem.ini")
     return hw, pt

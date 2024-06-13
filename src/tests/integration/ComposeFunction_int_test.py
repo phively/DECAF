@@ -42,5 +42,15 @@ def test_parse_eval_functions_pythagorean():
     assert cf.eval_functions(pytuple, *pymodfuns) == 5.0
 
 
-def test_import_and_parse():
-    return
+def test_funclist_to_eval_e2e():
+    # Hello World! test
+    hw = cf.construct_functions_list(helloworld)
+    assert hw == [print]
+    assert cf.eval_functions("Hello World!", *hw) == print("Hello World!")
+    assert cf.eval_functions_list("Hello World!", helloworld) == print("Hello World!")
+    # Pythagorean test
+    pytuple = (3, 4)
+    pt = cf.construct_functions_list(pythagorean)
+    assert pt[1] == sum
+    assert cf.eval_functions(pytuple, *pt) == 5.0
+    assert cf.eval_functions_list(pytuple, pythagorean) == 5.0

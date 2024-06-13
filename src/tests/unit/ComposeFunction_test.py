@@ -5,9 +5,9 @@ import builtins
 
 
 def test_compose_functions():
-    assert ComposeFunction.compose_functions(sum) == sum
-    assert ComposeFunction.compose_functions(math.pow) == math.pow
-    assert ComposeFunction.compose_functions(math.sqrt) == math.sqrt
+    assert ComposeFunction._compose_functions(sum) == sum
+    assert ComposeFunction._compose_functions(math.pow) == math.pow
+    assert ComposeFunction._compose_functions(math.sqrt) == math.sqrt
 
 
 def test_eval_functions():

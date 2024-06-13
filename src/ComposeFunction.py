@@ -3,13 +3,13 @@ from importlib import import_module
 
 
 # Recursively compose 1 or more functions
-def compose_functions(*functions):
+def _compose_functions(*functions):
     return functools.reduce(lambda f, g: lambda x: g(f(x)), functions)
 
 
 # Evaluate a composition of single-argument functions
 def eval_functions(input, *functions):
-    functions = compose_functions(*functions)
+    functions = _compose_functions(*functions)
     return functions(input)
 
 
@@ -70,3 +70,20 @@ def _get_functions(modules, funcnames):
     for m, f in zip(modules, funcnames):
         out.append(_get_function(m, f))
     return out
+
+
+# Take a list of [mod.funs,] and return a list of callable functions
+def construct_functions_list(stringlist):
+    # Parse stringlist
+    modslist, funcslist = _parse_functions(stringlist)
+    # Construct imports list
+    mods = _import_modules_list(modslist)
+    # Construct functions
+    return _get_functions(mods, funcslist)
+
+
+# Evaluate functions from list of [mod.funs,]
+def eval_functions_list(input, stringlist):
+    # Construct functions
+    funcs = construct_functions_list(stringlist)
+    return eval_functions(input, *funcs)
