@@ -36,6 +36,9 @@ def test_parse_functions():
 def test_validate_types():
     hw, pt = read_test_configs()
     zz = ConfigReader.read_config(path + "null.ini")
+    # Helper function
+    assert ConfigReader._validate_type(hw, "output_type", "Hello World!")
+    assert ConfigReader._validate_type(pt, "input_type", (3.0, 4.0))
     # Inputs
     assert ConfigReader.validate_input_type(pt, (3.0, 4.0))
     assert ConfigReader.validate_input_type(hw, None)
