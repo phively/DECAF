@@ -1,4 +1,4 @@
-g# DECAF
+# DECAF
 ## Data Extraction and Cleaning Automated Framework - in Python!
 
 DECAF provides an extensible framework for performing common data cleaning tasks with modular functions.
