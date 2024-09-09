@@ -20,20 +20,33 @@ def company_cleaning_pipeline(dat_in):
         "StringFormat.strip_punctuation",
         "FuzzyMatch.remove_company_suffixes",
     ]
-    return cf.eval_functions_list(dat_in, fns)
+    out = list()
+    if type(dat_in) is str:
+        return cf.eval_functions_list(dat_in, fns)
+    else:
+        for dat in dat_in:
+            out.append(cf.eval_functions_list(dat, fns))
+    return out
 
 
 def test_company_cleaning_pipeline():
+    # Test output
     assert company_cleaning_pipeline("ACME, Corp.") == "acme"
+    assert company_cleaning_pipeline("Fake Worldwide LLC Company") == "fake worldwide"
+    assert company_cleaning_pipeline(["ACME, Corp.", "Fake Worldwide LLC Company"]) == [
+        "acme",
+        "fake worldwide",
+    ]
 
 
 def test_company_fuzzy_match():
     # Load data
     companies = load_match_data()
-    ref_name = companies["reference_name"]
-    new_name = companies["new_name"]
+    ref_name = company_cleaning_pipeline(companies["reference_name"])
+    new_name = company_cleaning_pipeline(companies["new_name"])
 
     # Test output
+    scores = fm.fuzzy_match_pairwise(ref_name, new_name)
 
 
 def test_company_fuzzy_match_from_config():
