@@ -1,7 +1,4 @@
 import FuzzyMatch as fm
-import pandas as pd
-
-path = "src/tests/"
 
 
 def test_remove_company_suffixes():
@@ -11,7 +8,10 @@ def test_remove_company_suffixes():
 
 
 # Company name fuzzy matching
-def test_fuzzy_match_company():
-    companies = pd.read_csv(path + "data/fuzzy_match_companies.csv")
-    ref_name = companies["reference_name"]
-    new_name = companies["new_name"]
+def test_fuzzy_match_pairwise():
+    assert fm.fuzzy_match_pairwise("abcde", "abcde") == 100
+    assert fm.fuzzy_match_pairwise("abcxy", "abcde") == 60
+    assert (
+        fm.fuzzy_match_pairwise("Andrews Banking Corp", "andrews advisory group, llc")
+        == 55
+    )
