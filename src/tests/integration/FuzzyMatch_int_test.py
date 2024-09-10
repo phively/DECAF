@@ -1,6 +1,7 @@
 import FuzzyMatch as fm
 import ComposeFunction as cf
 import pandas as pd
+import numpy as np
 
 path = "src/tests/"
 
@@ -45,8 +46,10 @@ def test_company_fuzzy_match():
     ref_name = company_cleaning_pipeline(companies["reference_name"])
     new_name = company_cleaning_pipeline(companies["new_name"])
 
-    # Test output
-    scores = fm.fuzzy_match_pairwise(ref_name, new_name)
+    # Append and check scores
+    companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
+    companies["result"] = np.where(companies["scores"] >= 80, "match", "new")
+    assert companies["expected"].to_list() == companies["result"].to_list()
 
 
 def test_company_fuzzy_match_from_config():
