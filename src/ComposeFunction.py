@@ -9,6 +9,7 @@ def _compose_functions(*functions):
 
 # Evaluate a composition of single-argument functions
 def eval_functions(input, *functions):
+    """Evaluate a composition of single-argument functions (NOT function name strings)."""
     functions = _compose_functions(*functions)
     return functions(input)
 
@@ -50,6 +51,7 @@ def _import_modules_list(imports):
 
 # Manually add module to global imports
 def add_to_global_imports(module):
+    """Manually adds a module into to the global environment."""
     globals()[module.__name__] = module
 
 
@@ -74,6 +76,7 @@ def _get_functions(modules, funcnames):
 
 # Take a list of [mod.funs,] and return a list of callable functions
 def construct_functions_list(stringlist):
+    """Converts a list of strings representing 'module.function' names into functions."""
     # Parse stringlist
     modslist, funcslist = _parse_functions(stringlist)
     # Construct imports list
@@ -84,6 +87,7 @@ def construct_functions_list(stringlist):
 
 # Evaluate functions from list of [mod.funs,]
 def eval_functions_list(input, stringlist):
+    """With input, evaluate a list of strings representing 'module.function' names in order."""
     # Construct functions
     funcs = construct_functions_list(stringlist)
     try:

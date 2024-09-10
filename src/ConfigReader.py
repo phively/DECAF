@@ -3,6 +3,7 @@ from configparser import ConfigParser
 
 # Import config file
 def read_config(config_file):
+    """Initializes a ConfigParser reading from the provided config_file path."""
     cp = ConfigParser()
     cp.read(config_file)
     return cp
@@ -10,6 +11,7 @@ def read_config(config_file):
 
 # Parse [functions] value into list
 def parse_functions(cp):
+    """Parse ConfigParser functions string."""
     # Read value and strip whitespace
     fns = cp["control"]["functions"].replace(" ", "")
     return fns.split(",")

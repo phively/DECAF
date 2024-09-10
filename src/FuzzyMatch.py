@@ -4,6 +4,7 @@ from fuzzywuzzy import fuzz
 
 # Remove company suffixes
 def remove_company_suffixes(company_name):
+    """Removes common company suffixes with cleanco."""
     return basename(company_name)
 
 
