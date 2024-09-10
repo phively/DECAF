@@ -97,3 +97,6 @@ def eval_functions_list(input, stringlist):
         for i in input:
             out.append(eval_functions(i, *funcs))
         return out
+    # Catch list as input
+    except AttributeError:
+        return [eval_functions(i, *funcs) for i in input]

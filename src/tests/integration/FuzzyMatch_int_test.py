@@ -1,5 +1,6 @@
 import FuzzyMatch as fm
 import ComposeFunction as cf
+import ConfigReader as cr
 import pandas as pd
 import numpy as np
 
@@ -54,4 +55,13 @@ def test_company_fuzzy_match():
 
 def test_company_fuzzy_match_from_config():
     # Load data
-    assert 1 == 1
+    companies = load_match_data()
+    config = cr.read_config("src/config/cleaning/clean_company_name.ini")
+    fns = cr.parse_functions(config)
+    ref_name = cf.eval_functions_list(companies["reference_name"], fns)
+    new_name = cf.eval_functions_list(companies["new_name"], fns)
+
+    # Append and check scores
+    companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
+    companies["result"] = np.where(companies["scores"] >= 80, "match", "new")
+    assert companies["expected"].to_list() == companies["result"].to_list()

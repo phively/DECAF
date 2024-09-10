@@ -10,6 +10,7 @@ def remove_company_suffixes(company_name):
 
 # Pairwise fuzzy match using WRatio
 def fuzzy_match_pairwise(new_str, ref_str):
+    """WRatio fuzzywuzzy match score between two strings."""
     if type(new_str) is str:
         return fuzz.WRatio(new_str, ref_str)
     else:
