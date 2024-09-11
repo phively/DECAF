@@ -1,11 +1,12 @@
 import ConfigReader as cr
+import pandas as pd
 
 
-def _load_file():
-    return
+def _load_file(filepath):
+    return pd.read_csv(filepath)
 
 
-def _write_file():
+def _write_file(filepath):
     return
 
 
@@ -13,15 +14,26 @@ def _write_file():
 def load_files_from_ini(ini_path):
     cp = cr.read_config(ini_path)
     # Extract necessary fields
-    functions = cr.parse_functions(cp)
-    file1 = cr["control"]["file1"]
-    col1 = cr["control"]["column1"]
-    file2 = cr["control"]["file2"]
-    col2 = cr["control"]["column2"]
-    # 1 file, 0 col
-    # 1 file, 1 col
-    # 1 file, 2 col
-    # 2 file, 0 col = INVALID
-    # 2 file, 1 col = INVALID
-    # 2 file, 2 col
+    fp1 = cp["control"]["file1"]
+    cn1 = cp["control"]["column1"]
+    fp2 = cp["control"]["file2"]
+    cn2 = cp["control"]["column2"]
+    # Switching
+    nfiles = int(fp1 != "") + int(fp2 != "")
+    ncols = int(cn1 != "") + int(cn2 != "")
+    # 1 file, 0-3 col
+    if nfiles == 1:
+        if ncols == 0:
+            return _load_file(fp1)
+        elif ncols == 1:
+            return _load_file(fp1)[cn1]
+        elif ncols == 2:
+            return _load_file(fp1)[cn1, cn2]
+    elif nfiles == 2:
+        # 2 file, 2 col
+        try:
+            return
+        # 2 file, 1 or 2 col: INVALID
+        except ValueError:
+            return
     return
