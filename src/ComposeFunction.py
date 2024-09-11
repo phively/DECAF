@@ -87,7 +87,7 @@ def construct_functions_list(stringlist):
 
 # Evaluate functions from list of [mod.funs,]
 def eval_functions_list(input, stringlist):
-    """With input, evaluate a list of strings representing 'module.function' names in order."""
+    """On input, evaluate ordered list of strings representing 'module.function' names."""
     # Construct functions
     funcs = construct_functions_list(stringlist)
     try:

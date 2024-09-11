@@ -12,5 +12,5 @@ DECAF provides an extensible framework for performing common data cleaning tasks
 
 ## To investigate
 
-* name_matching - company name fuzzy match; see [DeNederlandscheBank/name_matching](https://github.com/DeNederlandscheBank/name_matching/tree/main)
-* cleanco - removes common company name suffixes like inc, ltd, etc.
+- [ ] name_matching - company name fuzzy match; see [DeNederlandscheBank/name_matching](https://github.com/DeNederlandscheBank/name_matching/tree/main)
+- [x] cleanco - removes common company name suffixes like inc, ltd, etc.
