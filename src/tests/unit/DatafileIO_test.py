@@ -7,6 +7,7 @@ config_path = "src/tests/"
 # Return full path to test ini and test data file
 def test_load_files():
     data_path = config_path + "data/pythagorean_triples.csv"
+    # 1 file 0 col
     assert dio._load_files(data_path, "", "", "").equals(pd.read_csv(data_path))
     # 1 file 1 col
     assert dio._load_files(data_path, "c", "", "").equals(pd.read_csv(data_path)["c"])
