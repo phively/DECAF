@@ -22,3 +22,7 @@ def test_load_files():
     )
     assert rn.equals(pd.read_csv(data_path)["reference_name"])
     assert nn.equals(pd.read_csv(data_path)["new_name"])
+    # csv and xlsx
+    my_csv = dio._load_files(data_path)
+    my_xls = dio._load_files(config_path + "data/fuzzy_match_companies.xlsx")
+    assert my_csv.equals(my_xls)
