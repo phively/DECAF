@@ -1,9 +1,10 @@
 import ConfigReader as cr
+import ComposeFunction as cf
 import pandas as pd
 
 
-def _load_file(filepath):
-    # Helper to handle file imports
+def load_file(filepath):
+    """Load data files into a pandas dataframe."""
     try:
         return pd.read_csv(filepath)
     except ValueError:
@@ -17,15 +18,15 @@ def _load_files(fp1, cn1="", fp2="", cn2=""):
     # 1 file, 0-3 col
     if nfiles == 1:
         if ncols == 0:
-            return _load_file(fp1)
+            return load_file(fp1)
         elif ncols == 1:
-            return _load_file(fp1)[cn1]
+            return load_file(fp1)[cn1]
         elif ncols == 2:
-            return _load_file(fp1)[[cn1, cn2]]
+            return load_file(fp1)[[cn1, cn2]]
     elif nfiles == 2:
         # 2 file, 2 col
         try:
-            return _load_file(fp1)[cn1], pd.read_csv(fp2)[cn2]
+            return load_file(fp1)[cn1], pd.read_csv(fp2)[cn2]
         # 2 file, 1 or 2 col: INVALID
         except ValueError:
             return
@@ -45,3 +46,10 @@ def load_files_from_ini(ini_path):
     fp2 = cp["control"]["file2"]
     cn2 = cp["control"]["column2"]
     return _load_files(fp1, cn1, fp2, cn2)
+
+
+def dataloader(ini_path):
+    """Process ini, loading files with specified function."""
+    cp = cr.read_config(ini_path)
+    fns = cr.parse_functions(cp)
+    return cf.eval_functions_list(ini_path, fns)

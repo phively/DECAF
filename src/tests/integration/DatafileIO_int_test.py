@@ -28,3 +28,9 @@ def test_load_files_from_ini():
     rn, nn = dio.load_files_from_ini(ini_path)
     assert rn.equals(pd.read_csv(data_path)["reference_name"])
     assert nn.equals(pd.read_csv(data_path)["new_name"])
+
+
+def test_load_and_process_from_ini():
+    ini_path, data_path = _get_paths("load_pythagorean_triples_all.ini")
+    pt = dio.dataloader(ini_path)
+    assert pt.equals(pd.read_csv(data_path))
