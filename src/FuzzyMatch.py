@@ -1,5 +1,6 @@
 from cleanco import basename
 from fuzzywuzzy import fuzz
+import logging
 
 
 # Remove company suffixes
@@ -18,3 +19,12 @@ def fuzzy_match_pairwise(new_str, ref_str):
         for x, y in zip(new_str, ref_str):
             out.append(fuzz.WRatio(x, y))
     return out
+
+
+# Threshold scoring
+def score_threshold(score, threshold=80):
+    # Check valid threshold
+    if not 0 <= threshold <= 100:
+        logging.exception("Invalid threshold, must be in range [0, 100]")
+        return
+    return score >= threshold
