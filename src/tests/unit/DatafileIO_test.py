@@ -26,3 +26,17 @@ def test_load_files():
     my_csv = dio._load_files(data_path)
     my_xls = dio._load_files(config_path + "data/fuzzy_match_companies.xlsx")
     assert my_csv.equals(my_xls)
+
+
+# Read functions from a different ini specified by current one
+def test_read_cleaning_from_ini():
+    pfmc = dio._read_cleaning_from_ini(
+        config_path + "config/processing/fuzzy_match_company.ini"
+    )
+    assert pfmc == [
+        "StringFormat.to_lower",
+        "StringFormat.trim_whitespace",
+        "StringFormat.strip_non_ascii",
+        "StringFormat.strip_punctuation",
+        "FuzzyMatch.remove_company_suffixes",
+    ]

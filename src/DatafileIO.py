@@ -53,3 +53,13 @@ def dataloader(ini_path):
     cp = cr.read_config(ini_path)
     fns = cr.parse_functions(cp)
     return cf.eval_functions_list(ini_path, fns)
+
+
+def _read_cleaning_from_ini(ini_path):
+    fns = [
+        "ConfigReader.read_config",
+        "ConfigReader.parse_cleaning",
+        "ConfigReader.read_config",
+        "ConfigReader.parse_functions",
+    ]
+    return cf.eval_functions_list(ini_path, fns)
