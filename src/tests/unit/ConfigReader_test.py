@@ -5,8 +5,8 @@ path = "src/tests/config/"
 
 # Shared code to set up test configs
 def read_test_configs():
-    hw = ConfigReader.read_config(path + "hello_world.ini")
-    pt = ConfigReader.read_config(path + "pythagorean_theorem.ini")
+    hw = ConfigReader.read_config(path + "processing/hello_world.ini")
+    pt = ConfigReader.read_config(path + "processing/pythagorean_theorem.ini")
     return hw, pt
 
 

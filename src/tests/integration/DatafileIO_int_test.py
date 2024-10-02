@@ -2,7 +2,7 @@ import DatafileIO as dio
 import ConfigReader as cr
 import pandas as pd
 
-config_path = "src/tests/config/"
+config_path = "src/tests/config/loading/"
 
 
 # Return full path to test ini and test data file

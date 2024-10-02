@@ -8,7 +8,7 @@ path = "src/tests/"
 def test_import_parse_eval_helloworld():
     hwdat = pd.read_csv(path + "data/hello_world.txt", header=None)
     # Load config file
-    hw = cr.read_config(path + "config/hello_world.ini")
+    hw = cr.read_config(path + "config/processing/hello_world.ini")
     assert hw.sections() == ["info", "control"]
     # Parse and eval function
     funcs = cr.parse_functions(hw)
@@ -24,7 +24,7 @@ def test_import_parse_eval_pythagorean():
     ab = list(ab.itertuples(index=False, name=None))
     c = list(c)
     # Load config file
-    pt = cr.read_config(path + "config/pythagorean_theorem.ini")
+    pt = cr.read_config(path + "config/processing/pythagorean_theorem.ini")
     assert pt.sections() == ["info", "control"]
     # Parse and eval function
     funcs = cr.parse_functions(pt)
