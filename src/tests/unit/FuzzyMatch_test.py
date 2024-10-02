@@ -23,6 +23,7 @@ def test_score_threshold():
     assert fm.score_threshold(80, 79)
     assert fm.score_threshold(80, 0)
     assert fm.score_threshold(60, 59.9)
+    assert not fm.score_threshold(79)
     assert not fm.score_threshold(80, 81)
     assert not fm.score_threshold(99, 100)
     assert not fm.score_threshold(99, 99.99)

@@ -9,12 +9,25 @@ def read_config(config_file):
     return cp
 
 
+def _parse_to_list(cp, section, key):
+    # Read value and strip whitespace
+    try:
+        fns = cp[section][key].replace(" ", "")
+        return fns.split(",")
+    except KeyError:
+        return None
+
+
 # Parse [functions] value into list
 def parse_functions(cp):
     """Parse ConfigParser functions string."""
-    # Read value and strip whitespace
-    fns = cp["control"]["functions"].replace(" ", "")
-    return fns.split(",")
+    return _parse_to_list(cp, "control", "functions")
+
+
+# Parse [cleaning] value into list
+def parse_cleaning(cp):
+    """Parse ConfigParser cleaning string."""
+    return _parse_to_list(cp, "control", "cleaning")
 
 
 # Validate type

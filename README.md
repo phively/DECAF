@@ -3,6 +3,13 @@
 
 DECAF provides an extensible framework for performing common data cleaning tasks with modular functions.
 
+## Module structure
+
+* DECAF: master module, used to specify data files and config inis to use for cleaning
+* DatafileIO: reads config inis and reads and writes data
+
+Other modules should not have dependencies on each other.
+
 ## Planned features
 
 * String parsing libraries covering common data types: phone number, email, address...

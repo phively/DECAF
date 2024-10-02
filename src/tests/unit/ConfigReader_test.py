@@ -30,6 +30,8 @@ def test_parse_functions():
         "sum",
         "math.sqrt",
     ]
+    assert ConfigReader.parse_cleaning(hw) == ["dummy_function_1", "dummy_function_2"]
+    assert ConfigReader.parse_cleaning(pt) is None
 
 
 # Ensure type checks work
