@@ -40,3 +40,17 @@ def test_read_cleaning_from_ini():
         "StringFormat.strip_punctuation",
         "FuzzyMatch.remove_company_suffixes",
     ]
+
+
+# Write xlsx files
+def test_write_file():
+    # Setup
+    path = "src/tests/data/DatafileIO_write_test.xlsx"
+    df1 = pd.DataFrame({"letters": ["ABC", "DEF"], "numbers": [123, 456]})
+    df2 = pd.DataFrame(None)
+    # Write and read a populated datafile
+    dio._write_file(df1, path)
+    assert dio.load_file(path).equals(df1)
+    # Write and read an empty datafile
+    dio._write_file(df2, path)
+    assert dio.load_file(path).equals(df2)

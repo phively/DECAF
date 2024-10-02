@@ -32,7 +32,8 @@ def _load_files(fp1, cn1="", fp2="", cn2=""):
             return
 
 
-def _write_file(filepath):
+def _write_file(dataframe, filepath):
+    dataframe.to_excel(filepath, index=False)
     return
 
 
