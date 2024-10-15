@@ -30,6 +30,7 @@ def test_load_files():
 
 # Read functions from a different ini specified by current one
 def test_read_cleaning_from_ini():
+    # Exact path provided
     pfmc = dio._read_cleaning_from_ini(
         config_path + "config/processing/fuzzy_match_company.ini"
     )

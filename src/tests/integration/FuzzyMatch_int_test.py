@@ -1,6 +1,7 @@
 import FuzzyMatch as fm
 import ComposeFunction as cf
 import ConfigReader as cr
+import DatafileIO as dio
 import pandas as pd
 import numpy as np
 
@@ -56,10 +57,30 @@ def test_company_fuzzy_match():
 def test_company_fuzzy_match_from_config():
     # Load data
     companies = load_match_data()
-    config = cr.read_config("src/config/cleaning/clean_company_name.ini")
+    config = cr.read_config("src/tests/config/cleaning/clean_company_name.ini")
     fns = cr.parse_functions(config)
     ref_name = cf.eval_functions_list(companies["reference_name"], fns)
     new_name = cf.eval_functions_list(companies["new_name"], fns)
+
+    # Append and check scores
+    companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
+    companies["result"] = np.where(companies["scores"] >= 80, "match", "new")
+    assert companies["expected"].to_list() == companies["result"].to_list()
+
+
+def test_company_fuzzy_match_nested_config():
+    # Load data
+    companies = load_match_data()
+    path = "src/tests/config/processing/fuzzy_match_company.ini"
+    config = cr.read_config(path)
+
+    # Process functions
+    match_fns = cr.parse_functions(config)
+    clean_fns = dio._read_cleaning_from_ini(path)
+    assert match_fns is not None
+    assert clean_fns is not None
+    ref_name = cf.eval_functions_list(companies["reference_name"], clean_fns)
+    new_name = cf.eval_functions_list(companies["new_name"], clean_fns)
 
     # Append and check scores
     companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)

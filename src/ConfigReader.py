@@ -5,7 +5,13 @@ from configparser import ConfigParser
 def read_config(config_file):
     """Initializes a ConfigParser reading from the provided config_file path."""
     cp = ConfigParser()
-    cp.read(config_file)
+    empty = ConfigParser()
+    try:
+        cp.read(config_file)
+        assert cp != empty
+    except AssertionError:
+        # Try removing 4 characters, assumed "src/"
+        cp.read(config_file[4:])
     return cp
 
 
