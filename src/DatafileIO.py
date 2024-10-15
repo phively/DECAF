@@ -32,8 +32,11 @@ def _load_files(fp1, cn1="", fp2="", cn2=""):
             return
 
 
-def _write_file(dataframe, filepath):
-    dataframe.to_excel(filepath, index=False)
+def _write_file(dataframe, filepath, type="xlsx"):
+    if type in ("xls", "xlsx"):
+        dataframe.to_excel(filepath, index=False)
+    if type == "csv":
+        dataframe.to_csv(filepath, index=False)
     return
 
 

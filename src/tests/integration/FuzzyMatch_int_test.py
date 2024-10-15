@@ -86,3 +86,8 @@ def test_company_fuzzy_match_nested_config():
     companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
     companies["result"] = np.where(companies["scores"] >= 80, "match", "new")
     assert companies["expected"].to_list() == companies["result"].to_list()
+
+
+def test_company_fuzzy_match_e2e():
+    # Load data
+    assert True

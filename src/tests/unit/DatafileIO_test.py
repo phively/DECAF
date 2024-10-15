@@ -43,15 +43,20 @@ def test_read_cleaning_from_ini():
     ]
 
 
-# Write xlsx files
+# Write xlsx or csv files
 def test_write_file():
     # Setup
-    path = "src/tests/data/DatafileIO_write_test.xlsx"
+    path = "src/tests/data/DatafileIO_write_test"
+    xlsx = ".xlsx"
+    csv = ".csv"
     df1 = pd.DataFrame({"letters": ["ABC", "DEF"], "numbers": [123, 456]})
     df2 = pd.DataFrame(None)
     # Write and read a populated datafile
-    dio._write_file(df1, path)
-    assert dio.load_file(path).equals(df1)
+    dio._write_file(df1, path + xlsx, "xlsx")
+    assert dio.load_file(path + xlsx).equals(df1)
+    # Test csv
+    dio._write_file(df1, path + csv, "csv")
+    assert dio.load_file(path + csv).equals(df1)
     # Write and read an empty datafile
-    dio._write_file(df2, path)
-    assert dio.load_file(path).equals(df2)
+    dio._write_file(df2, path + xlsx)
+    assert dio.load_file(path + xlsx).equals(df2)
