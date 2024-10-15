@@ -4,7 +4,7 @@ from configparser import ConfigParser
 # Import config file
 def read_config(config_file):
     """Initializes a ConfigParser reading from the provided config_file path."""
-    cp = ConfigParser()
+    cp = ConfigParser(inline_comment_prefixes=";")
     empty = ConfigParser()
     try:
         cp.read(config_file)
