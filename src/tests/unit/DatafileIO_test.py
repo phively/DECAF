@@ -29,18 +29,27 @@ def test_load_files():
 
 
 # Read functions from a different ini specified by current one
-def test_read_cleaning_from_ini():
+def test_read_functions_from_ini():
     # Exact path provided
-    pfmc = dio._read_cleaning_from_ini(
-        config_path + "config/processing/fuzzy_match_company.ini"
-    )
-    assert pfmc == [
+    path = config_path + "config/processing/fuzzy_match_company.ini"
+    # Processing functions
+    fmc = dio._fns_from_ini(path)
+    fns_target = ["FuzzyMatch.fuzzy_match_pairwise", "FuzzyMatch.score_threshold"]
+    assert fmc == fns_target
+    # Cleaning functions
+    fmc = dio._cleaning_from_ini(path)
+    cleaning_target = [
         "StringFormat.to_lower",
         "StringFormat.trim_whitespace",
         "StringFormat.strip_non_ascii",
         "StringFormat.strip_punctuation",
         "FuzzyMatch.remove_company_suffixes",
     ]
+    assert fmc == cleaning_target
+    # Unified processing
+    fmc = dio.read_functions_from_ini(path)
+    assert fmc["functions"] == fns_target
+    assert fmc["cleaning"] == cleaning_target
 
 
 # Write xlsx or csv files

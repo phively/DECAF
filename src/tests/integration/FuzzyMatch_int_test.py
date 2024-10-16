@@ -76,7 +76,7 @@ def test_company_fuzzy_match_nested_config():
 
     # Process functions
     match_fns = cr.parse_functions(config)
-    clean_fns = dio._read_cleaning_from_ini(inipath)
+    clean_fns = dio._cleaning_from_ini(inipath)
     assert match_fns is not None
     assert clean_fns is not None
     ref_name = cf.eval_functions_list(companies["reference_name"], clean_fns)
@@ -107,7 +107,7 @@ def test_company_fuzzy_match_e2e():
 
     # Process functions
     match_fns = cr.parse_functions(config)
-    clean_fns = dio._read_cleaning_from_ini(inipath)
+    clean_fns = dio._cleaning_from_ini(inipath)
     assert match_fns is not None
     assert clean_fns is not None
     ref_name = cf.eval_functions_list(companies["reference_name"], clean_fns)

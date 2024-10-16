@@ -59,7 +59,13 @@ def dataloader(ini_path):
     return cf.eval_functions_list(ini_path, fns)
 
 
-def _read_cleaning_from_ini(ini_path):
+# Process ini files and extract relevant functions
+def _fns_from_ini(ini_path):
+    fns = ["ConfigReader.read_config", "ConfigReader.parse_functions"]
+    return cf.eval_functions_list(ini_path, fns)
+
+
+def _cleaning_from_ini(ini_path):
     fns = [
         "ConfigReader.read_config",
         "ConfigReader.parse_cleaning",
@@ -67,3 +73,9 @@ def _read_cleaning_from_ini(ini_path):
         "ConfigReader.parse_functions",
     ]
     return cf.eval_functions_list(ini_path, fns)
+
+
+def read_functions_from_ini(ini_path):
+    fns = _fns_from_ini(ini_path)
+    cln = _cleaning_from_ini(ini_path)
+    return {"functions": fns, "cleaning": cln}
