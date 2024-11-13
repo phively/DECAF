@@ -31,6 +31,7 @@ def test_score_threshold():
     assert fm.score_threshold(80, threshold_high=80, threshold_low=60)
     assert fm.score_threshold(50, 51, 49) is None
     assert not fm.score_threshold(50, 60, 50)
+    assert not fm.score_threshold(50, 70, 60)
     # Invalid thresholds
     assert fm.score_threshold(50, -1) is None
     assert fm.score_threshold(50, 101) is None

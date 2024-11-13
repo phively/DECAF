@@ -2,7 +2,6 @@ import ComposeFunction as cf
 import ConfigReader as cr
 import DatafileIO as dio
 import FuzzyMatch as fm
-import numpy as np
 
 
 def fuzzy_match_companies(input_file, col1, col2, output_file=None):
@@ -17,8 +16,8 @@ def fuzzy_match_companies(input_file, col1, col2, output_file=None):
     # Setup - ini params
     fns_proc = all_fns["functions"]
     fns_clean = all_fns["cleaning"]
-    threshold_high = config["parameters"]["threshold_high"]
-    threshold_low = config["paraneters"]["threshold_low"]
+    threshold_high = int(config["parameters"]["threshold_high"])
+    threshold_low = int(config["parameters"]["threshold_low"])
     file_suffix = config["info"]["name"]
 
     # Load & process data
@@ -28,11 +27,7 @@ def fuzzy_match_companies(input_file, col1, col2, output_file=None):
 
     # Fuzzy match
     data["scores"] = fm.fuzzy_match_pairwise(data["clean1"], data["clean2"])
-    data["result"] = np.where(
-        fm.score_threshold(
-            data["scores"], threshold_high, threshold_low, "match", "nonmatch"
-        )
-    )
+    data["match"] = fm.score_threshold(data["scores"], threshold_high, threshold_low)
 
     # Write file
     dio._write_file(data, filepath=input_file + file_suffix + ".csv", type="csv")
