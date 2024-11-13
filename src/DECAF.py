@@ -17,7 +17,8 @@ def fuzzy_match_companies(input_file, col1, col2, output_file=None):
     # Setup - ini params
     fns_proc = all_fns["functions"]
     fns_clean = all_fns["cleaning"]
-    match_threshold = config["parameters"]["match_threshold"]
+    threshold_high = config["parameters"]["threshold_high"]
+    threshold_low = config["paraneters"]["threshold_low"]
     file_suffix = config["info"]["name"]
 
     # Load & process data
@@ -28,7 +29,9 @@ def fuzzy_match_companies(input_file, col1, col2, output_file=None):
     # Fuzzy match
     data["scores"] = fm.fuzzy_match_pairwise(data["clean1"], data["clean2"])
     data["result"] = np.where(
-        fm.score_threshold(data["scores"], match_threshold, "match", "nonmatch")
+        fm.score_threshold(
+            data["scores"], threshold_high, threshold_low, "match", "nonmatch"
+        )
     )
 
     # Write file
