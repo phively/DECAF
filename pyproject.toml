@@ -1,0 +1,18 @@
+[project]
+name = "DECAF"
+version = "0.1.0"
+authors = [
+  { name="Paul Hively", email="paul.hively@kellogg.northwestern.edu" },
+]
+description = "Data Extraction and Cleaning Automated Framework - in Python!"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD-3-Clause ",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/phively/DECAF"
+Issues = "https://github.com/phively/DECAF/issues"

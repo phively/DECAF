@@ -3,6 +3,10 @@
 
 DECAF provides an extensible framework for performing common data cleaning tasks with modular functions.
 
+## Installation
+
+python -m pip install -e FILEPATH\DECAF
+
 ## Module structure
 
 * DECAF: master module, used to specify data files and config inis to use for cleaning
