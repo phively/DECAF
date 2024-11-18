@@ -1,17 +1,17 @@
-reference_name,new_name,expected
-Ballentine Partners LLC,"Ballentine Partners, LLC",match
-Huron Capital Partners LLC,Huron Capital,match
-USI Insurance Svc,Usi Insurance Services,match
-"New Heritage Capital, LLC",New Heritage Capital,match
-Aureus,Aureus Capital,match
-"Marsh USA, Inc.",Marsh Inc,match
-Madison Capital LLC,Madison Capital Funding,match
-Adams Street Partners LLC,"Partners, Adams St",match
-Promus Bank & Trust,Promus Capital LLC,new
-Huron Consulting Group,Huron Capital Partners LLC,new
-Comprehensive Capital Partners,Cohesive Capital Planning L.P.,new
-Andrews Banking Corp,"Andrews Advisory Group, LLC",new
-Piper Sandler & Co.,Piper Jaffray,new
-"Peabody Partners, LLC",Prospect Partners LLC,new
-The Mortgage Office,L.E.K. Consulting,new
-John Deere,Caterpillar Inc.,new
+reference_name,new_name,expected,thresh_expected
+Ballentine Partners LLC,"Ballentine Partners, LLC",match,TRUE
+Huron Capital Partners LLC,Huron Capital,match,TRUE
+USI Insurance Svc,Usi Insurance Services,match,TRUE
+"New Heritage Capital, LLC",New Heritage Capital,match,TRUE
+Aureus,Aureus Capital,match,TRUE
+"Marsh USA, Inc.",Marsh Inc,match,TRUE
+Madison Capital LLC,Madison Capital Funding,match,TRUE
+Adams Street Partners LLC,"Partners, Adams St",match,TRUE
+Promus Bank & Trust,Promus Capital LLC,new,FALSE
+Huron Consulting Group,Huron Capital Partners LLC,new,FALSE
+Comprehensive Capital Partners,Cohesive Capital Planning L.P.,new,
+Andrews Banking Corp,"Andrews Advisory Group, LLC",new,
+Piper Sandler & Co.,Piper Jaffray,new,
+"Peabody Partners, LLC",Prospect Partners LLC,new,
+The Mortgage Office,L.E.K. Consulting,new,FALSE
+John Deere,Caterpillar Inc.,new,FALSE

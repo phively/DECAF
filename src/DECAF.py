@@ -4,11 +4,14 @@ import DatafileIO as dio
 import FuzzyMatch as fm
 
 
-def fuzzy_match_companies(input_file, col1, col2, output_file=None):
+def fuzzy_match_companies(
+    input_file,
+    col1,
+    col2,
+    output_file=None,
+    ini_file="src/config/processing/fuzzy_match_company.ini",
+):
     """Fuzzy match companies according to settings in provided config file."""
-
-    # Parameters
-    ini_file = "src/config/processing/fuzzy_match_company.ini"
 
     # Setup - read
     config = cr.read_config(ini_file)
@@ -30,4 +33,6 @@ def fuzzy_match_companies(input_file, col1, col2, output_file=None):
     data["match"] = fm.score_threshold(data["scores"], threshold_high, threshold_low)
 
     # Write file
+    if output_file is not None:
+        file_suffix = output_file
     dio._write_file(data, filepath=input_file + file_suffix + ".csv", type="csv")

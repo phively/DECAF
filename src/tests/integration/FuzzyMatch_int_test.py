@@ -4,6 +4,7 @@ import ConfigReader as cr
 import DatafileIO as dio
 import pandas as pd
 import numpy as np
+import DECAF
 
 path = "src/tests/"
 
@@ -71,7 +72,7 @@ def test_company_fuzzy_match_from_config():
 def test_company_fuzzy_match_nested_config():
     # Load data
     companies = load_match_data()
-    inipath = "src/tests/config/processing/fuzzy_match_company.ini"
+    inipath = "src/tests/config/processing/fuzzy_match_company_test.ini"
     config = cr.read_config(inipath)
 
     # Process functions
@@ -91,7 +92,7 @@ def test_company_fuzzy_match_nested_config():
 def test_company_fuzzy_match_e2e():
     # Params
     datapath = "src/tests/data/fuzzy_match_companies.csv"
-    inipath = "src/tests/config/processing/fuzzy_match_company.ini"
+    inipath = "src/tests/config/processing/fuzzy_match_company_test.ini"
 
     # Load data and config
     companies = dio.load_file(datapath)
@@ -103,7 +104,7 @@ def test_company_fuzzy_match_e2e():
     match_threshold = int(config["parameters"]["match_threshold"])
     assert match_threshold == 80
     filesuffix = config["info"]["name"]
-    assert filesuffix == "_fuzzy_match_company"
+    assert filesuffix == "_fuzzy_match_company_test"
 
     # Process functions
     match_fns = cr.parse_functions(config)
@@ -124,3 +125,32 @@ def test_company_fuzzy_match_e2e():
     dio._write_file(companies, filepath=datapath + filesuffix + "_test.csv", type="csv")
     saved_companies = pd.read_csv(datapath + filesuffix + "_test.csv")
     assert saved_companies["scores"].equals(companies["scores"])
+
+
+def test_company_fuzzy_match_decaf():
+    # Params
+    filepath = "src/tests/data/fuzzy_match_companies.xlsx"
+    inipath = "src/tests/config/processing/fuzzy_match_company.ini"
+    outname = "_OUT"
+    col1 = "reference_name"
+    col2 = "new_name"
+
+    # Run script
+    DECAF.fuzzy_match_companies(
+        filepath,
+        col1,
+        col2,
+        output_file=outname,
+        ini_file=inipath,
+    )
+
+    # Check output
+    truth = dio.load_file(filepath)
+    truth = np.where(
+        np.isnan(truth["thresh_expected"]), None, truth["thresh_expected"].astype(bool)
+    )
+
+    saved = dio.load_file(filepath + outname + ".csv")
+    saved = np.where(saved["match"].isna(), None, saved["match"].astype(bool))
+
+    assert saved.tolist() == truth.tolist()

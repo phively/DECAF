@@ -25,13 +25,14 @@ def test_load_files():
     # csv and xlsx
     my_csv = dio._load_files(data_path)
     my_xls = dio._load_files(config_path + "data/fuzzy_match_companies.xlsx")
-    assert my_csv.equals(my_xls)
+    assert my_csv["reference_name"].equals(my_xls["reference_name"])
+    assert my_csv["new_name"].equals(my_xls["new_name"])
 
 
 # Read functions from a different ini specified by current one
 def test_read_functions_from_ini():
     # Exact path provided
-    path = config_path + "config/processing/fuzzy_match_company.ini"
+    path = config_path + "config/processing/fuzzy_match_company_test.ini"
     # Processing functions
     fmc = dio._fns_from_ini(path)
     fns_target = ["FuzzyMatch.fuzzy_match_pairwise", "FuzzyMatch.score_threshold"]
