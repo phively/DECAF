@@ -1,4 +1,10 @@
 from configparser import ConfigParser
+from pathlib import Path
+
+
+# Generic relative to absolute path builder
+def _build_path(filepath):
+    return str(Path(filepath).resolve().as_posix())
 
 
 # Import config file
@@ -6,6 +12,8 @@ def read_config(config_file):
     """Initializes a ConfigParser reading from the provided config_file path."""
     cp = ConfigParser(inline_comment_prefixes=";")
     empty = ConfigParser()
+    config_file = _build_path(config_file)
+    cp.read(config_file)
     try:
         cp.read(config_file)
         assert cp != empty
@@ -32,8 +40,20 @@ def parse_functions(cp):
 
 # Parse [cleaning] value into list
 def parse_cleaning(cp):
-    """Parse ConfigParser cleaning string."""
-    return _parse_to_list(cp, "control", "cleaning")
+    """Parse ConfigParser cleaning string.
+    try:
+        return _build_path(clean)
+    except TypeError:
+        return clean"""
+    clean = _parse_to_list(cp, "control", "cleaning")
+    # If None or list then return
+    if clean is None or len(clean) > 1:
+        return clean
+    # If clean is filepath, return as filepath
+    try:
+        return _build_path(clean[0])
+    except TypeError:
+        return clean
 
 
 # Validate type

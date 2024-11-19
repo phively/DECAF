@@ -5,6 +5,7 @@ import pandas as pd
 
 def load_file(filepath):
     """Load data files into a pandas dataframe."""
+    filepath = cr._build_path(filepath)
     try:
         return pd.read_csv(filepath)
     except ValueError:
@@ -15,6 +16,9 @@ def _load_files(fp1, cn1="", fp2="", cn2=""):
     # Counts for switch statement
     nfiles = int(fp1 != "") + int(fp2 != "")
     ncols = int(cn1 != "") + int(cn2 != "")
+    # Build absolute paths
+    fp1 = cr._build_path(fp1)
+    fp2 = cr._build_path(fp2)
     # 1 file, 0-3 col
     if nfiles == 1:
         if ncols == 0:
@@ -43,6 +47,7 @@ def _write_file(dataframe, filepath, type="xlsx"):
 # Load file(s) from ini specification
 def load_files_from_ini(ini_path):
     """Load data file and columns specified in .ini as a dataframe."""
+    ini_path = cr._build_path(ini_path)
     cp = cr.read_config(ini_path)
     # Extract necessary fields
     fp1 = cp["control"]["file1"]
@@ -54,6 +59,7 @@ def load_files_from_ini(ini_path):
 
 def dataloader(ini_path):
     """Process ini, loading files with specified function."""
+    ini_path = cr._build_path(ini_path)
     cp = cr.read_config(ini_path)
     fns = cr.parse_functions(cp)
     return cf.eval_functions_list(ini_path, fns)
@@ -61,6 +67,7 @@ def dataloader(ini_path):
 
 # Process ini files and extract relevant functions
 def _fns_from_ini(ini_path):
+    ini_path = cr._build_path(ini_path)
     fns = ["ConfigReader.read_config", "ConfigReader.parse_functions"]
     return cf.eval_functions_list(ini_path, fns)
 
@@ -72,6 +79,7 @@ def _cleaning_from_ini(ini_path):
         "ConfigReader.read_config",
         "ConfigReader.parse_functions",
     ]
+    ini_path = cr._build_path(ini_path)
     return cf.eval_functions_list(ini_path, fns)
 
 
