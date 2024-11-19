@@ -47,7 +47,6 @@ def _write_file(dataframe, filepath, type="xlsx"):
 # Load file(s) from ini specification
 def load_files_from_ini(ini_path):
     """Load data file and columns specified in .ini as a dataframe."""
-    ini_path = cr._build_path(ini_path)
     cp = cr.read_config(ini_path)
     # Extract necessary fields
     fp1 = cp["control"]["file1"]
@@ -59,7 +58,6 @@ def load_files_from_ini(ini_path):
 
 def dataloader(ini_path):
     """Process ini, loading files with specified function."""
-    ini_path = cr._build_path(ini_path)
     cp = cr.read_config(ini_path)
     fns = cr.parse_functions(cp)
     return cf.eval_functions_list(ini_path, fns)
@@ -67,13 +65,11 @@ def dataloader(ini_path):
 
 # Process ini files and extract relevant functions
 def _fns_from_ini(ini_path):
-    ini_path = cr._build_path(ini_path)
     fns = ["ConfigReader.read_config", "ConfigReader.parse_functions"]
     return cf.eval_functions_list(ini_path, fns)
 
 
 def _cleaning_from_ini(ini_path):
-    ini_path = cr._build_path(ini_path)
     path_fns = [
         "ConfigReader.read_config",
         "ConfigReader.parse_cleaning",

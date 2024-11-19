@@ -30,3 +30,21 @@ def test_company_fuzzy_match():
     saved = np.where(saved["match"].isna(), None, saved["match"].astype(bool))
 
     assert saved.tolist() == truth.tolist()
+
+
+def test_company_fuzzy_match_e2e():
+    # Params
+    filepath = "src/tests/data/fuzzy_match_companies.xlsx"
+    outname = "_OUT"
+    col1 = "reference_name"
+    col2 = "new_name"
+
+    # Run script
+    DECAF.fuzzy_match_companies(
+        input_file=filepath,
+        col1=col1,
+        col2=col2,
+        output_file=outname,
+    )
+
+    assert True

@@ -9,7 +9,7 @@ def fuzzy_match_companies(
     col1,
     col2,
     output_file=None,
-    ini_file="config/processing/fuzzy_match_company.ini",
+    ini_file="src/config/processing/fuzzy_match_company.ini",
 ):
     """Fuzzy match companies according to settings in provided config file."""
 

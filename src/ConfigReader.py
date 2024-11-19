@@ -1,25 +1,28 @@
 from configparser import ConfigParser
 from pathlib import Path
+import os
+
+
+# Check if file exists
+def _file_exists(filepath):
+    return os.path.isfile(filepath)
 
 
 # Generic relative to absolute path builder
 def _build_path(filepath):
-    return str(Path(filepath).resolve().as_posix())
+    if _file_exists(filepath):
+        return str(Path(filepath).resolve().as_posix())
+    # Try removing 4 characters, assumed "src/"
+    trunc_filepath = filepath[4:]
+    return str(Path(trunc_filepath).resolve().as_posix())
 
 
 # Import config file
 def read_config(config_file):
     """Initializes a ConfigParser reading from the provided config_file path."""
     cp = ConfigParser(inline_comment_prefixes=";")
-    empty = ConfigParser()
-    config_file = _build_path(config_file)
-    cp.read(config_file)
-    try:
-        cp.read(config_file)
-        assert cp != empty
-    except AssertionError:
-        # Try removing 4 characters, assumed "src/"
-        cp.read(config_file[4:])
+    path = _build_path(config_file)
+    cp.read(path)
     return cp
 
 
