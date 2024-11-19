@@ -73,14 +73,17 @@ def _fns_from_ini(ini_path):
 
 
 def _cleaning_from_ini(ini_path):
-    fns = [
+    ini_path = cr._build_path(ini_path)
+    path_fns = [
         "ConfigReader.read_config",
         "ConfigReader.parse_cleaning",
+    ]
+    clean_path = cf.eval_functions_list(ini_path, path_fns)
+    fns = [
         "ConfigReader.read_config",
         "ConfigReader.parse_functions",
     ]
-    ini_path = cr._build_path(ini_path)
-    return cf.eval_functions_list(ini_path, fns)
+    return cf.eval_functions_list(clean_path, fns)
 
 
 def read_functions_from_ini(ini_path):
