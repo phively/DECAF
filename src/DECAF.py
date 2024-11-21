@@ -17,7 +17,7 @@ def fuzzy_match_companies(
     config = cr.read_config(ini_file)
     all_fns = dio.read_functions_from_ini(ini_file)
     # Setup - ini params
-    fns_proc = all_fns["functions"]
+    # fns_proc = all_fns["functions"]
     fns_clean = all_fns["cleaning"]
     threshold_high = int(config["parameters"]["threshold_high"])
     threshold_low = int(config["parameters"]["threshold_low"])

@@ -5,7 +5,13 @@ DECAF provides an extensible framework for performing common data cleaning tasks
 
 ## Installation
 
-python -m pip install -e FILEPATH\DECAF
+~~~
+# Install from dist (recommended)
+python -m pip install FILEPATH\decaf-VERSIONNUMBER.tar.gz
+
+# Compile source
+python -m build
+~~~
 
 ## Module structure
 

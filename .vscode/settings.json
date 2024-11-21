@@ -5,9 +5,12 @@
     "flake8.args": [
         "--max-line-length=90"
      ],
+    "mypy-type-checker.args": [
+        "--ignore-missing-imports",
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
         "."
     ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
 }
