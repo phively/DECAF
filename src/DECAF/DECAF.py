@@ -1,7 +1,7 @@
-import ComposeFunction as cf
-import ConfigReader as cr
-import DatafileIO as dio
-import FuzzyMatch as fm
+from DECAF import ComposeFunction as cf
+from DECAF import ConfigReader as cr
+from DECAF import DatafileIO as dio
+from DECAF import FuzzyMatch as fm
 
 
 def fuzzy_match_companies(

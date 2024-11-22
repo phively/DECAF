@@ -45,7 +45,11 @@ def _import_modules_list(imports):
         imports = [imports]
     modules = list()
     for i in imports:
-        modules.append(import_module(i))
+        # If module not found, try DECAF.module
+        try:
+            modules.append(import_module(i))
+        except ModuleNotFoundError:
+            modules.append(import_module("DECAF." + i))
     return modules
 
 

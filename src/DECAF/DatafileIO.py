@@ -1,5 +1,5 @@
-import ConfigReader as cr
-import ComposeFunction as cf
+from DECAF import ConfigReader as cr
+from DECAF import ComposeFunction as cf
 import pandas as pd
 
 
