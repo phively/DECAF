@@ -2,7 +2,7 @@ import ConfigReader as cr
 import ComposeFunction as cf
 import pandas as pd
 
-path = "src/tests/"
+path = "src/DECAF/tests/"
 
 
 def test_import_parse_eval_helloworld():

@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 
-path = "src/tests/"
+path = "src/DECAF/tests/"
 
 
 # Load data
@@ -58,7 +58,7 @@ def test_company_fuzzy_match():
 def test_company_fuzzy_match_from_config():
     # Load data
     companies = load_match_data()
-    config = cr.read_config("src/tests/config/cleaning/clean_company_name.ini")
+    config = cr.read_config(path + "config/cleaning/clean_company_name.ini")
     fns = cr.parse_functions(config)
     ref_name = cf.eval_functions_list(companies["reference_name"], fns)
     new_name = cf.eval_functions_list(companies["new_name"], fns)
@@ -72,7 +72,7 @@ def test_company_fuzzy_match_from_config():
 def test_company_fuzzy_match_nested_config():
     # Load data
     companies = load_match_data()
-    inipath = "src/tests/config/processing/fuzzy_match_company_test.ini"
+    inipath = path + "config/processing/fuzzy_match_company_test.ini"
     config = cr.read_config(inipath)
 
     # Process functions
@@ -91,8 +91,8 @@ def test_company_fuzzy_match_nested_config():
 
 def test_company_fuzzy_match_e2e():
     # Params
-    datapath = "src/tests/data/fuzzy_match_companies.csv"
-    inipath = "src/tests/config/processing/fuzzy_match_company_test.ini"
+    datapath = path + "data/fuzzy_match_companies.csv"
+    inipath = path + "config/processing/fuzzy_match_company_test.ini"
 
     # Load data and config
     companies = dio.load_file(datapath)
