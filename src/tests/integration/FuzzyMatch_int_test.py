@@ -1,12 +1,12 @@
-import FuzzyMatch as fm
-import ComposeFunction as cf
-import ConfigReader as cr
-import DatafileIO as dio
+from DECAF import FuzzyMatch as fm
+from DECAF import ComposeFunction as cf
+from DECAF import ConfigReader as cr
+from DECAF import DatafileIO as dio
 import pandas as pd
 import numpy as np
+from TestFuncs import set_test_path
 
-
-path = "src/DECAF/tests/"
+path = set_test_path()
 
 
 # Load data

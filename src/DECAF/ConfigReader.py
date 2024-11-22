@@ -11,10 +11,12 @@ def _file_exists(filepath):
 # Generic relative to absolute path builder
 def _build_path(filepath):
     if _file_exists(filepath):
-        return str(Path(filepath).resolve().as_posix())
+        abs_path = str(Path(filepath).resolve().as_posix())
+        return abs_path
     # Try removing 4 characters, assumed "src/"
     trunc_filepath = filepath[4:]
-    return str(Path(trunc_filepath).resolve().as_posix())
+    abs_path = str(Path(trunc_filepath).resolve().as_posix())
+    return abs_path
 
 
 # Import config file

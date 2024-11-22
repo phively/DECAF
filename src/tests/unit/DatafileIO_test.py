@@ -1,13 +1,13 @@
-import DatafileIO as dio
+from DECAF import DatafileIO as dio
 import pandas as pd
+from TestFuncs import set_test_path
 
-
-config_path = "src/DECAF/tests/"
+path = set_test_path()
 
 
 # Return full path to test ini and test data file
 def test_load_files():
-    data_path = config_path + "data/pythagorean_triples.csv"
+    data_path = path + "data/pythagorean_triples.csv"
     # 1 file 0 col
     assert dio._load_files(data_path, "", "", "").equals(pd.read_csv(data_path))
     # 1 file 1 col
@@ -17,7 +17,7 @@ def test_load_files():
         pd.read_csv(data_path)[["a", "b"]]
     )
     # 2 file 2 col
-    data_path = config_path + "data/fuzzy_match_companies.csv"
+    data_path = path + "data/fuzzy_match_companies.csv"
     rn, nn = dio._load_files(
         fp1=data_path, cn1="reference_name", fp2=data_path, cn2="new_name"
     )
@@ -25,7 +25,7 @@ def test_load_files():
     assert nn.equals(pd.read_csv(data_path)["new_name"])
     # csv and xlsx
     my_csv = dio._load_files(data_path)
-    my_xls = dio._load_files(config_path + "data/fuzzy_match_companies.xlsx")
+    my_xls = dio._load_files(path + "data/fuzzy_match_companies.xlsx")
     assert my_csv["reference_name"].equals(my_xls["reference_name"])
     assert my_csv["new_name"].equals(my_xls["new_name"])
 
@@ -33,13 +33,13 @@ def test_load_files():
 # Read functions from a different ini specified by current one
 def test_read_functions_from_ini():
     # Exact path provided
-    path = config_path + "config/processing/fuzzy_match_company_test.ini"
+    inipath = path + "config/processing/fuzzy_match_company_test.ini"
     # Processing functions
-    fmc = dio._fns_from_ini(path)
+    fmc = dio._fns_from_ini(inipath)
     fns_target = ["FuzzyMatch.fuzzy_match_pairwise", "FuzzyMatch.score_threshold"]
     assert fmc == fns_target
     # Cleaning functions
-    fmc = dio._cleaning_from_ini(path)
+    fmc = dio._cleaning_from_ini(inipath)
     cleaning_target = [
         "StringFormat.to_lower",
         "StringFormat.trim_whitespace",
@@ -49,7 +49,7 @@ def test_read_functions_from_ini():
     ]
     assert fmc == cleaning_target
     # Unified processing
-    fmc = dio.read_functions_from_ini(path)
+    fmc = dio.read_functions_from_ini(inipath)
     assert fmc["functions"] == fns_target
     assert fmc["cleaning"] == cleaning_target
 
@@ -57,17 +57,17 @@ def test_read_functions_from_ini():
 # Write xlsx or csv files
 def test_write_file():
     # Setup
-    path = "src/DECAF/tests/data/DatafileIO_write_test"
+    filepath = path + "data/DatafileIO_write_test"
     xlsx = ".xlsx"
     csv = ".csv"
     df1 = pd.DataFrame({"letters": ["ABC", "DEF"], "numbers": [123, 456]})
     df2 = pd.DataFrame(None)
     # Write and read a populated datafile
-    dio._write_file(df1, path + xlsx, "xlsx")
-    assert dio.load_file(path + xlsx).equals(df1)
+    dio._write_file(df1, filepath + xlsx, "xlsx")
+    assert dio.load_file(filepath + xlsx).equals(df1)
     # Test csv
-    dio._write_file(df1, path + csv, "csv")
-    assert dio.load_file(path + csv).equals(df1)
+    dio._write_file(df1, filepath + csv, "csv")
+    assert dio.load_file(filepath + csv).equals(df1)
     # Write and read an empty datafile
-    dio._write_file(df2, path + xlsx)
-    assert dio.load_file(path + xlsx).equals(df2)
+    dio._write_file(df2, filepath + xlsx)
+    assert dio.load_file(filepath + xlsx).equals(df2)

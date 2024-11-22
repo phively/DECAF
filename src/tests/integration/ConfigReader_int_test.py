@@ -1,8 +1,9 @@
-import ConfigReader as cr
-import ComposeFunction as cf
+from DECAF import ConfigReader as cr
+from DECAF import ComposeFunction as cf
 import pandas as pd
+from TestFuncs import set_test_path
 
-path = "src/DECAF/tests/"
+path = set_test_path()
 
 
 def test_import_parse_eval_helloworld():

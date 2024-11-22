@@ -1,8 +1,9 @@
-import DatafileIO as dio
-import ConfigReader as cr
+from DECAF import DatafileIO as dio
+from DECAF import ConfigReader as cr
 import pandas as pd
+from TestFuncs import set_test_path
 
-config_path = "src/DECAF/tests/config/loading/"
+config_path = set_test_path() + "config/loading/"
 
 
 # Return full path to test ini and test data file

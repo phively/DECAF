@@ -1,6 +1,10 @@
 import math
 
 
+def set_test_path():
+    return "src/tests/"
+
+
 def tuplepow(xs, pow):
     out = ()
     # Append each x^2 to out

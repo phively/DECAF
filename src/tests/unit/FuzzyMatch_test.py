@@ -1,4 +1,4 @@
-import FuzzyMatch as fm
+from DECAF import FuzzyMatch as fm
 
 
 def test_remove_company_suffixes():

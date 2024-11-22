@@ -1,8 +1,9 @@
-import DECAF
-import DatafileIO as dio
+from DECAF import DECAF
+from DECAF import DatafileIO as dio
 import numpy as np
+from TestFuncs import set_test_path
 
-path = "src/DECAF/tests/"
+path = set_test_path()
 
 
 def test_company_fuzzy_match():

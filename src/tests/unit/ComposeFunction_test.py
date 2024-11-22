@@ -1,5 +1,5 @@
-import ComposeFunction
-from tests.TestFuncs import tuplesquare
+from DECAF import ComposeFunction
+from TestFuncs import tuplesquare
 import math
 import builtins
 

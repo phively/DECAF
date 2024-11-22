@@ -27,7 +27,9 @@ Issues = "https://github.com/phively/DECAF/issues"
 
 [tool.pytest.ini_options]
 pythonpath = [
-  "./src/DECAF"
+  "src",
+  "src/DECAF",
+  "src/tests",
 ]
 
 [build-system]

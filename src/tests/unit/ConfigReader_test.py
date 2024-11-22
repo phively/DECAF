@@ -1,6 +1,7 @@
-import ConfigReader
+from DECAF import ConfigReader
+from TestFuncs import set_test_path
 
-path = "src/DECAF/tests/config/"
+path = set_test_path() + "config/"
 
 
 # Shared code to set up test configs

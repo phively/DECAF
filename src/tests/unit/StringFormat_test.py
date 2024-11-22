@@ -1,4 +1,4 @@
-import StringFormat
+from DECAF import StringFormat
 
 
 def test_to_lower():

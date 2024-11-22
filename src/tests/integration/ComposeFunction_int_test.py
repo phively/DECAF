@@ -1,4 +1,4 @@
-import ComposeFunction as cf
+from DECAF import ComposeFunction as cf
 import math
 from tests.TestFuncs import tuplesquare
 
