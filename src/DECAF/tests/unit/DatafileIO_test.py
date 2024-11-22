@@ -2,7 +2,7 @@ import DatafileIO as dio
 import pandas as pd
 
 
-config_path = "src/tests/"
+config_path = "src/DECAF/tests/"
 
 
 # Return full path to test ini and test data file
@@ -57,7 +57,7 @@ def test_read_functions_from_ini():
 # Write xlsx or csv files
 def test_write_file():
     # Setup
-    path = "src/tests/data/DatafileIO_write_test"
+    path = "src/DECAF/tests/data/DatafileIO_write_test"
     xlsx = ".xlsx"
     csv = ".csv"
     df1 = pd.DataFrame({"letters": ["ABC", "DEF"], "numbers": [123, 456]})

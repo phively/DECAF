@@ -1,6 +1,6 @@
 import ConfigReader
 
-path = "src/tests/config/"
+path = "src/DECAF/tests/config/"
 
 
 # Shared code to set up test configs
