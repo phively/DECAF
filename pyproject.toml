@@ -2,7 +2,7 @@
 name = "DECAF"
 version = "0.1.0"
 authors = [
-  { name="Paul Hively", email="paul.hively@kellogg.northwestern.edu" },
+  { name="Paul Hively" },
 ]
 description = "Data Extraction and Cleaning Automated Framework - in Python!"
 readme = "README.md"

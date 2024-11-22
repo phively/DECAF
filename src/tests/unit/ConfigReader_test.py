@@ -1,14 +1,30 @@
-from DECAF import ConfigReader
+from DECAF import ConfigReader as cr
 from TestFuncs import set_test_path
 
-path = set_test_path() + "config/"
+path = set_test_path()
+config_path = path + "config/"
 
 
 # Shared code to set up test configs
 def read_test_configs():
-    hw = ConfigReader.read_config(path + "processing/hello_world.ini")
-    pt = ConfigReader.read_config(path + "processing/pythagorean_theorem.ini")
+    hw = cr.read_config(config_path + "processing/hello_world.ini")
+    pt = cr.read_config(config_path + "processing/pythagorean_theorem.ini")
     return hw, pt
+
+
+# Check filepath validation and construction
+def test_filepaths():
+    # Check if file exists
+    hw_path = "processing/hello_world.ini"
+    assert cr._file_exists(config_path + hw_path)
+    assert not cr._file_exists(hw_path + ".exe")
+    # Check absolute paths
+    abs_path = cr._build_path(config_path + hw_path)
+    assert cr._file_exists(abs_path)
+    # Check relative paths
+    hw_rel_path = "cleaning/../" + hw_path
+    rel_path = cr._build_path(config_path + hw_rel_path)
+    assert cr._file_exists(rel_path)
 
 
 # Find and output config file values
@@ -25,28 +41,28 @@ def test_read_config():
 # Turn comma-delimited functions into a list
 def test_parse_functions():
     hw, pt = read_test_configs()
-    assert ConfigReader.parse_functions(hw) == ["print"]
-    assert ConfigReader.parse_functions(pt) == [
+    assert cr.parse_functions(hw) == ["print"]
+    assert cr.parse_functions(pt) == [
         "tests.TestFuncs.tuplesquare",
         "sum",
         "math.sqrt",
     ]
-    assert ConfigReader.parse_cleaning(hw) == ["dummy_function_1", "dummy_function_2"]
-    assert ConfigReader.parse_cleaning(pt) is None
+    assert cr.parse_cleaning(hw) == ["dummy_function_1", "dummy_function_2"]
+    assert cr.parse_cleaning(pt) is None
 
 
 # Ensure type checks work
 def test_validate_types():
     hw, pt = read_test_configs()
-    zz = ConfigReader.read_config(path + "null.ini")
+    zz = cr.read_config(config_path + "null.ini")
     # Helper function
-    assert ConfigReader._validate_type(hw, "output_type", "Hello World!")
-    assert ConfigReader._validate_type(pt, "input_type", (3.0, 4.0))
+    assert cr._validate_type(hw, "output_type", "Hello World!")
+    assert cr._validate_type(pt, "input_type", (3.0, 4.0))
     # Inputs
-    assert ConfigReader.validate_input_type(pt, (3.0, 4.0))
-    assert ConfigReader.validate_input_type(hw, None)
-    assert ConfigReader.validate_input_type(zz, None)
+    assert cr.validate_input_type(pt, (3.0, 4.0))
+    assert cr.validate_input_type(hw, None)
+    assert cr.validate_input_type(zz, None)
     # Outputs
-    assert ConfigReader.validate_output_type(hw, "Hello World!")
-    assert ConfigReader.validate_output_type(pt, 5.0)
-    assert ConfigReader.validate_output_type(zz, None)
+    assert cr.validate_output_type(hw, "Hello World!")
+    assert cr.validate_output_type(pt, 5.0)
+    assert cr.validate_output_type(zz, None)

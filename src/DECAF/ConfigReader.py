@@ -1,22 +1,22 @@
 from configparser import ConfigParser
 from pathlib import Path
-import os
 
 
 # Check if file exists
 def _file_exists(filepath):
-    return os.path.isfile(filepath)
+    file = Path(filepath)
+    return file.is_file()
 
 
 # Generic relative to absolute path builder
 def _build_path(filepath):
     if _file_exists(filepath):
-        abs_path = str(Path(filepath).resolve().as_posix())
-        return abs_path
+        abs_path = Path(filepath).resolve().as_posix()
+        return str(abs_path)
     # Try removing 4 characters, assumed "src/"
     trunc_filepath = filepath[4:]
-    abs_path = str(Path(trunc_filepath).resolve().as_posix())
-    return abs_path
+    abs_path = Path(trunc_filepath).resolve().as_posix()
+    return str(abs_path)
 
 
 # Import config file
