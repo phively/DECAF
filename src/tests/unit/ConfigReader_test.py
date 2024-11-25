@@ -30,6 +30,9 @@ def test_filepaths():
     src_path = cr._build_path(hw_src_path)
     assert cr._file_exists(src_path)
     # Check parent directory path
+    rel_cleaning_ref = "DECAF/config/processing/fuzzy_match_company.ini"
+    rel_cleaning_path = cr._build_path(rel_cleaning_ref)
+    assert cr._file_exists(rel_cleaning_path)
     # Check error condition
     err_path = "DoesNotExist"
     err_output = cr._build_path(err_path)
@@ -58,6 +61,9 @@ def test_parse_functions():
     ]
     assert cr.parse_cleaning(hw) == ["dummy_function_1", "dummy_function_2"]
     assert cr.parse_cleaning(pt) is None
+    # Check error handling
+    zz = cr.read_config(config_path + "null.ini")
+    assert cr.parse_cleaning(zz) is None
 
 
 # Ensure type checks work

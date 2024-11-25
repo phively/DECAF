@@ -41,4 +41,4 @@ where = ["src"]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-config = ["*.ini"]
+"*" = ["*.ini"]

@@ -1,3 +1,4 @@
+from DECAF import ConfigReader as _cr_self
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -20,6 +21,11 @@ def _build_path(filepath):
         outpath = _path_string(filepath)
         return outpath
     # Try looking from parent directory of loaded ConfigReader.py
+    parent_path = _path_string(Path(_cr_self.__file__).parents[1])
+    child_path = parent_path + "/" + filepath
+    if _file_exists(child_path):
+        outpath = _path_string(child_path)
+        return outpath
     # Try removing first 4 characters, assumed "src/"
     trunc_filepath = filepath[4:]
     if _file_exists(trunc_filepath):
@@ -66,10 +72,9 @@ def parse_cleaning(cp):
     if clean is None or len(clean) > 1:
         return clean
     # If clean is filepath, return as filepath
-    try:
-        return _build_path(clean[0])
-    except ValueError:
-        return clean
+    fp = _build_path(clean[0])
+    if _file_exists(fp):
+        return fp
 
 
 # Validate type
