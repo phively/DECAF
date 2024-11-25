@@ -17,7 +17,7 @@ def test_filepaths():
     # Check if file exists
     hw_path = "processing/hello_world.ini"
     assert cr._file_exists(config_path + hw_path)
-    assert not cr._file_exists(hw_path + ".exe")
+    assert not cr._file_exists(hw_path)
     # Check absolute paths
     abs_path = cr._build_path(config_path + hw_path)
     assert cr._file_exists(abs_path)
@@ -25,6 +25,15 @@ def test_filepaths():
     hw_rel_path = "cleaning/../" + hw_path
     rel_path = cr._build_path(config_path + hw_rel_path)
     assert cr._file_exists(rel_path)
+    # Check removing src/
+    hw_src_path = "src/" + config_path + hw_path
+    src_path = cr._build_path(hw_src_path)
+    assert cr._file_exists(src_path)
+    # Check parent directory path
+    # Check error condition
+    err_path = "DoesNotExist"
+    err_output = cr._build_path(err_path)
+    assert err_output == "WARNING: not found: " + err_path
 
 
 # Find and output config file values

@@ -6,6 +6,12 @@ helloworld = ["print"]
 pythagorean = ["tests.TestFuncs.tuplesquare", "sum", "math.sqrt"]
 
 
+def test_append_decaf():
+    sf = cf._import_modules_list(["StringFormat"])
+    assert sf[0].to_lower("THE QUICK BROWN FOX") == "the quick brown fox"
+    assert cf._import_modules_list(["FailedImport"]) is None
+
+
 def test_parse_funcstring_hello_world():
     # Construct print from builtins
     hwfs = cf._parse_funcstring("print")

@@ -16,6 +16,9 @@ def test_load_files():
     assert dio._load_files(data_path, "a", "", "b").equals(
         pd.read_csv(data_path)[["a", "b"]]
     )
+    # Key Error returns None
+    error = dio._load_files(data_path, "a", data_path, "x")
+    assert error is None
     # 2 file 2 col
     data_path = path + "data/fuzzy_match_companies.csv"
     rn, nn = dio._load_files(

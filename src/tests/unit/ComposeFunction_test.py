@@ -80,6 +80,8 @@ def test_get_function():
     assert ComposeFunction._get_function(builtins, "print")("Hello World!") == print(
         "Hello World!"
     )
+    # Module not found
+    assert ComposeFunction._get_function(math, "FakeFuncCausesErr") is None
 
 
 def test_get_functions():

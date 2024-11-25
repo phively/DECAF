@@ -49,7 +49,10 @@ def _import_modules_list(imports):
         try:
             modules.append(import_module(i))
         except ModuleNotFoundError:
-            modules.append(import_module("DECAF." + i))
+            try:
+                modules.append(import_module("DECAF." + i))
+            except ModuleNotFoundError:
+                return None
     return modules
 
 
@@ -63,7 +66,7 @@ def add_to_global_imports(module):
 def _get_function(module, funcname):
     try:
         return getattr(module, funcname)
-    except ModuleNotFoundError:
+    except AttributeError:
         return None
 
 

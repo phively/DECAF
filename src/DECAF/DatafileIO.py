@@ -32,8 +32,8 @@ def _load_files(fp1, cn1="", fp2="", cn2=""):
         try:
             return load_file(fp1)[cn1], pd.read_csv(fp2)[cn2]
         # 2 file, 1 or 2 col: INVALID
-        except ValueError:
-            return
+        except KeyError:
+            return None
 
 
 def _write_file(dataframe, filepath, type="xlsx"):

@@ -8,15 +8,26 @@ def _file_exists(filepath):
     return file.is_file()
 
 
+# Reencode filepath to string
+def _path_string(filepath):
+    return str(Path(filepath).resolve().as_posix())
+
+
 # Generic relative to absolute path builder
 def _build_path(filepath):
+    # If path works as-is, return
     if _file_exists(filepath):
-        abs_path = Path(filepath).resolve().as_posix()
-        return str(abs_path)
-    # Try removing 4 characters, assumed "src/"
+        outpath = _path_string(filepath)
+        return outpath
+    # Try looking from parent directory of loaded ConfigReader.py
+    # Try removing first 4 characters, assumed "src/"
     trunc_filepath = filepath[4:]
-    abs_path = Path(trunc_filepath).resolve().as_posix()
-    return str(abs_path)
+    if _file_exists(trunc_filepath):
+        outpath = _path_string(trunc_filepath)
+        return outpath
+    # Error condition: not found
+    outpath = "WARNING: not found: " + filepath
+    return outpath
 
 
 # Import config file
@@ -57,7 +68,7 @@ def parse_cleaning(cp):
     # If clean is filepath, return as filepath
     try:
         return _build_path(clean[0])
-    except TypeError:
+    except ValueError:
         return clean
 
 
