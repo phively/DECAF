@@ -1,5 +1,6 @@
 from DECAF import DECAF
 from DECAF import DatafileIO as dio
+from DECAF import ConfigReader as cr
 import numpy as np
 from TestFuncs import set_test_path
 
@@ -49,5 +50,23 @@ def test_company_fuzzy_match_e2e():
         col2=col2,
         output_file=outname,
     )
+    assert cr._file_exists(filepath + outname + ".csv")
 
-    assert True
+
+def test_company_fuzzy_match_data_issues():
+    # params
+    outname = "_OUT"
+    col1 = "COL1"
+    col2 = "COL2"
+
+    # Missing data test: NULL company name
+    missing_data = path + "data/fuzzy_match_companies_missing_data.xlsx"
+    DECAF.fuzzy_match_companies(
+        input_file=missing_data,
+        col1=col1,
+        col2=col2,
+        output_file=outname,
+    )
+    # Check results
+    proc_file = dio.load_file(missing_data + outname + ".csv")
+    assert proc_file["EXPECTED"].equals(proc_file["scores"])

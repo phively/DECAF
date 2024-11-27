@@ -1,0 +1,3 @@
+COL1,COL2,EXPECTED,clean1,clean2,scores,match
+"Google, Inc.",Google,100,google,google,100,True
+,Missing,30,nan,missing,30,False
