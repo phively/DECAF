@@ -7,10 +7,10 @@ DECAF provides an extensible framework for performing common data cleaning tasks
 
 ~~~
 # Install from GitHub dist (recommended)
-pip install "https://github.com/phively/DECAF/releases/download/0.1.0/decaf-0.1.0.tar.gz"
+pip install "https://github.com/phively/DECAF/releases/download/0.1.1/decaf-0.1.1.tar.gz"
 
 # Install local version
-python -m pip install FILEPATH\decaf-0.1.0.tar.gz
+python -m pip install FILEPATH\decaf-0.1.1.tar.gz
 
 # Compile source
 python -m build
