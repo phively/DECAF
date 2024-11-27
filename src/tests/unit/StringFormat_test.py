@@ -1,6 +1,12 @@
 from DECAF import StringFormat
 
 
+def test_string_errors():
+    assert StringFormat._safe_string(1.0) == "1.0"
+    assert StringFormat.to_lower(1) == "1"
+    assert StringFormat.strip_non_numeric(3.0) == "30"
+
+
 def test_to_lower():
     assert StringFormat.to_lower("THE QUICK BROWN FOX") == "the quick brown fox"
     assert StringFormat.to_lower("12#$,.?! HELLO world") == "12#$,.?! hello world"
