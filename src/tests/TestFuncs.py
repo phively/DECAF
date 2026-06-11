@@ -19,3 +19,7 @@ def tuplesquare(xs):
 
 def tuplecube(xs):
     return tuplepow(xs, 3)
+
+
+def tuplesqrt(xs):
+    return tuplepow(xs, 0.5)

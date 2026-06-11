@@ -1,5 +1,7 @@
 from DECAF import ComposeFunction
 from TestFuncs import tuplesquare
+from TestFuncs import tuplesqrt
+import pandas as pd
 import math
 import builtins
 
@@ -94,3 +96,24 @@ def test_get_functions():
     assert mf[1] == builtins.print
     # Test evaluation
     assert mf[0](9.0) == math.sqrt(9.0)
+
+
+def test_eval_show_work():
+    mydata = [1.0, 2.0, 3.0, 4.0, 5.0]
+    ts = tuplesquare(mydata)
+    nums = pd.DataFrame({"n": mydata})
+    # Test a single function
+    result = ComposeFunction.eval_functions_show_work(
+        nums, "n", ["TestFuncs.tuplesquare"], ["square"]
+    )
+    assert (result["square"].tolist()) == list(ts)
+    # Test multiple functions
+    tsr = tuplesqrt(ts)
+    result2 = ComposeFunction.eval_functions_show_work(
+        nums,
+        "n",
+        ["TestFuncs.tuplesquare", "TestFuncs.tuplesqrt"],
+        ["square2", "sqrt2"],
+    )
+    assert (result2["square2"].tolist()) == list(ts)
+    assert (result2["sqrt2"].tolist()) == list(tsr)

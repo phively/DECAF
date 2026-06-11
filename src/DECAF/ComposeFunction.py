@@ -94,7 +94,8 @@ def construct_functions_list(stringlist):
 
 # Evaluate functions from list of [mod.funs,]
 def eval_functions_list(input, stringlist):
-    """On input, evaluate ordered list of strings representing 'module.function' names."""
+    """On input, evaluate an ordered list of strings representing 'module.function'
+    names."""
     # Construct functions
     funcs = construct_functions_list(stringlist)
     try:
@@ -107,3 +108,22 @@ def eval_functions_list(input, stringlist):
     # Catch list as input
     except AttributeError:
         return [eval_functions(i, *funcs) for i in input]
+
+
+# Sequentially evaluate functions on a dataframe column, saving each intermediate step
+def eval_functions_show_work(df, first_col, stringlist, col_names):
+    """On input, evaluate an ordered list of strings representing 'module.function'
+    names and save each as an intermediate step using the provided list of column names.
+    """
+    # Error check
+    assert len(stringlist) == len(
+        col_names
+    ), "Mismatch: functions and new_col_names must be equal length"
+    # Setup
+    funcs = construct_functions_list(stringlist)
+    curr_col = first_col  # next working column
+    # Iterate through functions and column names
+    for f, cn in zip(funcs, col_names):
+        df[cn] = eval_functions(df[curr_col], f)
+        curr_col = cn
+    return df
