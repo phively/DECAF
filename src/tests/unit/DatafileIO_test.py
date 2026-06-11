@@ -40,7 +40,9 @@ def test_read_functions_from_ini():
     # Processing functions
     fmc = dio._fns_from_ini(inipath)
     fns_target = ["FuzzyMatch.fuzzy_match_pairwise", "FuzzyMatch.score_threshold"]
-    assert fmc == fns_target
+    names_target = ["scores", "match"]
+    assert fmc["functions"] == fns_target
+    assert fmc["new_col_names"] == names_target
     # Cleaning functions
     fmc = dio._cleaning_from_ini(inipath)
     cleaning_target = [
@@ -54,6 +56,7 @@ def test_read_functions_from_ini():
     # Unified processing
     fmc = dio.read_functions_from_ini(inipath)
     assert fmc["functions"] == fns_target
+    assert fmc["new_col_names"] == names_target
     assert fmc["cleaning"] == cleaning_target
 
 
