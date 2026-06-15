@@ -8,10 +8,10 @@ def _compose_functions(*functions):
 
 
 # Evaluate a composition of single-argument functions
-def eval_functions(input, *functions):
+def eval_functions(input, *functions, **args):
     """Evaluate a composition of single-argument functions (NOT function name strings)."""
-    functions = _compose_functions(*functions)
-    return functions(input)
+    functions = _compose_functions(*functions, **args)
+    return functions(input, *args)
 
 
 # Parse an "object.function" string into two strings

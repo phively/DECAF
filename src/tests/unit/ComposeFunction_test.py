@@ -12,6 +12,10 @@ def test_compose_functions():
     assert ComposeFunction._compose_functions(math.sqrt) == math.sqrt
 
 
+def test_compse_functions_with_args():
+    assert False
+
+
 def test_eval_functions():
     pytuple = (3, 4)
     # 3 + 4

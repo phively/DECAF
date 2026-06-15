@@ -115,13 +115,21 @@ def test_company_fuzzy_match_e2e():
     new_name = cf.eval_functions_list(companies["new_name"], clean_fns)
 
     # Append and check scores
-    companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
-    companies["result"] = np.where(
-        fm.score_threshold(companies["scores"], match_threshold), "match", "new"
+    companies["scores0"] = fm.fuzzy_match_pairwise(ref_name, new_name)
+    companies["result0"] = np.where(
+        fm.score_threshold(companies["scores0"], match_threshold), "match", "new"
     )
-    assert ex.to_list() == companies["result"].to_list()
+    assert ex.to_list() == companies["result0"].to_list()
+
+    # Append and check scores using match_fns list
+    # cf.eval_functions_show_work(
+    #     companies,
+    #     "reference_name",
+    #     ["FuzzyMatch.fuzzy_match_pairwise", "FuzzyMatch.score_threshold"],
+    #     ["scores", "result"],
+    # )
 
     # Write data to csv
     dio._write_file(companies, filepath=datapath + filesuffix + "_test.csv", type="csv")
     saved_companies = pd.read_csv(datapath + filesuffix + "_test.csv")
-    assert saved_companies["scores"].equals(companies["scores"])
+    assert saved_companies["scores0"].equals(companies["scores0"])
