@@ -7,11 +7,18 @@ def _compose_functions(*functions):
     return functools.reduce(lambda f, g: lambda x: g(f(x)), functions)
 
 
+# Helper to bundle multi-argument functions
+def bundle_function_args(func, *args, **kwargs):
+    """Combine a function and its *args into one object to pass through eval_functions."""
+    return lambda x: functools.partial(func, x)(*args, **kwargs)
+
+
 # Evaluate a composition of single-argument functions
-def eval_functions(input, *functions, **args):
-    """Evaluate a composition of single-argument functions (NOT function name strings)."""
-    functions = _compose_functions(*functions, **args)
-    return functions(input, *args)
+def eval_functions(input, *functions):
+    """Evaluate a composition of single-argument functions (NOT function name strings).
+    For multiple arguments, use bundle_function_args"""
+    functions = _compose_functions(*functions)
+    return functions(input)
 
 
 # Parse an "object.function" string into two strings

@@ -12,10 +12,6 @@ def test_compose_functions():
     assert ComposeFunction._compose_functions(math.sqrt) == math.sqrt
 
 
-def test_compse_functions_with_args():
-    assert False
-
-
 def test_eval_functions():
     pytuple = (3, 4)
     # 3 + 4
@@ -29,6 +25,23 @@ def test_eval_functions():
     # List operator
     assert (
         ComposeFunction.eval_functions(pytuple, *[tuplesquare, sum, math.sqrt]) == 5.0
+    )
+
+
+def test_eval_functions_with_args():
+    # round(x, 2)
+    round2d = ComposeFunction._compose_functions(
+        ComposeFunction.bundle_function_args(round, 2)
+    )
+    # round(5.333, 2)
+    assert ComposeFunction.eval_functions(5.3333, round2d) == 5.33
+    # round(sqrt(5), 2)
+    assert ComposeFunction.eval_functions(5, math.sqrt, round2d) == round(
+        math.sqrt(5), 2
+    )
+    # List operator
+    assert ComposeFunction.eval_functions(7, *[math.sqrt, round2d]) == round(
+        math.sqrt(7), 2
     )
 
 
