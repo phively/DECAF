@@ -1,5 +1,5 @@
 from DECAF import ConfigReader as cr
-from TestFuncs import set_test_path
+from TestFuncs import set_test_path  # type: ignore
 
 path = set_test_path()
 config_path = path + "config/"

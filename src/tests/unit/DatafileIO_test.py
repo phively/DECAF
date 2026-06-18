@@ -1,6 +1,6 @@
 from DECAF import DatafileIO as dio
 import pandas as pd
-from TestFuncs import set_test_path
+from TestFuncs import set_test_path  # type: ignore
 
 path = set_test_path()
 

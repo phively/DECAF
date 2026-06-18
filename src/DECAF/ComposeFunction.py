@@ -17,7 +17,7 @@ def _bundle_args(func, *args, **kwargs):
 def _tolist(input):
     """Convert input to a list, if not already a list/tuple."""
     if isinstance(input, (list, tuple)):
-        return input
+        return list(input)
     return [input]
 
 
