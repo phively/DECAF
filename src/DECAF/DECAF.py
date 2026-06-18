@@ -29,6 +29,10 @@ def fuzzy_match_companies(
     data["clean1"] = cf.eval_functions_list(data[col1], fns_clean)
     data["clean2"] = cf.eval_functions_list(data[col2], fns_clean)
 
+    # Construct proc functions list
+    fns_proclist = cf.construct_functions_list(fns_proc)
+    # Special cases: need args for fuzzy_match_pairwise and score_threshold
+
     # Fuzzy match
     data["scores"] = fm.fuzzy_match_pairwise(data["clean1"], data["clean2"])
     data["match"] = fm.score_threshold(data["scores"], threshold_high, threshold_low)

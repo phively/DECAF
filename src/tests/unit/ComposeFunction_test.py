@@ -1,71 +1,52 @@
-from DECAF import ComposeFunction
-from TestFuncs import tuplesquare
-from TestFuncs import tuplesqrt
+from DECAF import ComposeFunction as cf
+from TestFuncs import tuplesquare  # type: ignore
+from TestFuncs import tuplesqrt  # type: ignore
 import pandas as pd
 import math
 import builtins
 
 
 def test_compose_functions():
-    assert ComposeFunction._compose_functions(sum) == sum
-    assert ComposeFunction._compose_functions(math.pow) == math.pow
-    assert ComposeFunction._compose_functions(math.sqrt) == math.sqrt
+    assert cf._compose_functions(sum) == sum
+    assert cf._compose_functions(math.pow) == math.pow
+    assert cf._compose_functions(math.sqrt) == math.sqrt
 
 
 def test_eval_functions():
     pytuple = (3, 4)
     # 3 + 4
-    assert ComposeFunction.eval_functions(pytuple, sum) == 7
+    assert cf.eval_functions(pytuple, sum) == 7
     # (3^2, 4^2)
-    assert ComposeFunction.eval_functions(pytuple, tuplesquare) == (9.0, 16.0)
+    assert cf.eval_functions(pytuple, tuplesquare) == (9.0, 16.0)
     # 3^2 + 4^2
-    assert ComposeFunction.eval_functions(pytuple, tuplesquare, sum) == 25.0
+    assert cf.eval_functions(pytuple, tuplesquare, sum) == 25.0
     # sqrt(3^2 + 4^2)
-    assert ComposeFunction.eval_functions(pytuple, tuplesquare, sum, math.sqrt) == 5.0
+    assert cf.eval_functions(pytuple, tuplesquare, sum, math.sqrt) == 5.0
     # List operator
-    assert (
-        ComposeFunction.eval_functions(pytuple, *[tuplesquare, sum, math.sqrt]) == 5.0
-    )
-
-
-def test_eval_functions_with_args():
-    # round(x, 2)
-    round2d = ComposeFunction._compose_functions(
-        ComposeFunction.bundle_function_args(round, 2)
-    )
-    # round(5.333, 2)
-    assert ComposeFunction.eval_functions(5.3333, round2d) == 5.33
-    # round(sqrt(5), 2)
-    assert ComposeFunction.eval_functions(5, math.sqrt, round2d) == round(
-        math.sqrt(5), 2
-    )
-    # List operator
-    assert ComposeFunction.eval_functions(7, *[math.sqrt, round2d]) == round(
-        math.sqrt(7), 2
-    )
+    assert cf.eval_functions(pytuple, *[tuplesquare, sum, math.sqrt]) == 5.0
 
 
 def test_parse_funcstring():
     # Basic object.function
-    assert ComposeFunction._parse_funcstring("ab.cd") == ["ab", "cd"]
-    assert ComposeFunction._parse_funcstring("math.mod") == ["math", "mod"]
+    assert cf._parse_funcstring("ab.cd") == ["ab", "cd"]
+    assert cf._parse_funcstring("math.mod") == ["math", "mod"]
     # Extract function from longer.object
-    assert ComposeFunction._parse_funcstring("tests.TestFuncs.tuplesquare") == [
+    assert cf._parse_funcstring("tests.TestFuncs.tuplesquare") == [
         "tests.TestFuncs",
         "tuplesquare",
     ]
     # Access a built-in function
-    assert ComposeFunction._parse_funcstring("print") == ["builtins", "print"]
+    assert cf._parse_funcstring("print") == ["builtins", "print"]
 
 
 def test_parse_functions():
     # String
-    assert ComposeFunction._parse_functions("print") == [["builtins"], ["print"]]
-    assert ComposeFunction._parse_functions("math.sqrt") == [["math"], ["sqrt"]]
+    assert cf._parse_functions("print") == [["builtins"], ["print"]]
+    assert cf._parse_functions("math.sqrt") == [["math"], ["sqrt"]]
     # Single function
-    assert ComposeFunction._parse_functions(["ab.cd"]) == [["ab"], ["cd"]]
+    assert cf._parse_functions(["ab.cd"]) == [["ab"], ["cd"]]
     # Multiple functions
-    assert ComposeFunction._parse_functions(["ab.cd", "ef.gh", "ij.kl.mn"]) == [
+    assert cf._parse_functions(["ab.cd", "ef.gh", "ij.kl.mn"]) == [
         ["ab", "ef", "ij.kl"],
         ["cd", "gh", "mn"],
     ]
@@ -73,42 +54,40 @@ def test_parse_functions():
 
 def test_import_modules():
     # Single import as list
-    m = ComposeFunction._import_modules_list(["re"])
+    m = cf._import_modules_list(["re"])
     assert m[0].sub("a", "", "abc") == "bc"
     # Single import as string
-    n = ComposeFunction._import_modules_list("re")
+    n = cf._import_modules_list("re")
     assert n[0].sub("a", "", "abc") == "bc"
     # Import to globals
-    ComposeFunction.add_to_global_imports(m[0])
+    cf.add_to_global_imports(m[0])
     # Custom import
-    ci = ComposeFunction._import_modules_list("tests.TestFuncs")
+    ci = cf._import_modules_list("tests.TestFuncs")
     tup = (1, 2, 3)
     assert ci[0].tuplecube(tup) == (1, 8, 27)
     # Multi import
-    mi = ComposeFunction._import_modules_list(["math", "re"])
+    mi = cf._import_modules_list(["math", "re"])
     assert mi[0].sqrt(16.0) == 4.0
     assert mi[1].sub("a", "", "abc") == "bc"
 
 
 def test_get_function():
     # Basic function equivalence
-    assert ComposeFunction._get_function(math, "sqrt") == math.sqrt
-    assert ComposeFunction._get_function(builtins, "print") == print
+    assert cf._get_function(math, "sqrt") == math.sqrt
+    assert cf._get_function(builtins, "print") == print
     # Function operations
-    assert ComposeFunction._get_function(math, "sqrt")(16.0) == 4.0
-    assert ComposeFunction._get_function(builtins, "print")("Hello World!") == print(
-        "Hello World!"
-    )
+    assert cf._get_function(math, "sqrt")(16.0) == 4.0
+    assert cf._get_function(builtins, "print")("Hello World!") == print("Hello World!")
     # Module not found
-    assert ComposeFunction._get_function(math, "FakeFuncCausesErr") is None
+    assert cf._get_function(math, "FakeFuncCausesErr") is None
 
 
 def test_get_functions():
     # Test single functions
-    assert ComposeFunction._get_functions(math, "sqrt")[0] == math.sqrt
-    assert ComposeFunction._get_functions([math], ["sqrt"])[0] == math.sqrt
+    assert cf._get_functions(math, "sqrt")[0] == math.sqrt
+    assert cf._get_functions([math], ["sqrt"])[0] == math.sqrt
     # Test multiple functions
-    mf = ComposeFunction._get_functions([math, builtins], ["sqrt", "print"])
+    mf = cf._get_functions([math, builtins], ["sqrt", "print"])
     assert mf[0] == math.sqrt
     assert mf[1] == builtins.print
     # Test evaluation
@@ -120,13 +99,13 @@ def test_eval_show_work():
     ts = tuplesquare(mydata)
     nums = pd.DataFrame({"n": mydata})
     # Test a single function
-    result = ComposeFunction.eval_functions_show_work(
+    result = cf.eval_functions_show_work(
         nums, "n", ["TestFuncs.tuplesquare"], ["square"]
     )
     assert (result["square"].tolist()) == list(ts)
     # Test multiple functions
     tsr = tuplesqrt(ts)
-    result2 = ComposeFunction.eval_functions_show_work(
+    result2 = cf.eval_functions_show_work(
         nums,
         "n",
         ["TestFuncs.tuplesquare", "TestFuncs.tuplesqrt"],
@@ -134,3 +113,32 @@ def test_eval_show_work():
     )
     assert (result2["square2"].tolist()) == list(ts)
     assert (result2["sqrt2"].tolist()) == list(tsr)
+
+
+def test_compose_functions_with_args():
+    # round(x, 2)
+    round2d = cf._compose_functions(cf._bundle_args(round, 2))
+    # round(5.333, 2)
+    assert cf.eval_functions(5.3333, round2d) == 5.33
+    # round(sqrt(5), 2)
+    assert cf.eval_functions(5, math.sqrt, round2d) == round(math.sqrt(5), 2)
+    # List operator
+    assert cf.eval_functions(7, *[math.sqrt, round2d]) == round(math.sqrt(7), 2)
+    # Package function
+    choose5 = cf._bundle_args(math.comb, 5)
+    # 10 choose 5
+    assert cf.eval_functions(10, choose5) == 252
+
+
+def test_edit_funcstring_with_args():
+    # Test builtins
+    f = cf.construct_functions_list("round")
+    round2d = cf._bundle_args(f[0], 2)
+    assert cf.eval_functions(5.333, round2d) == 5.33
+    round2d_v2 = cf.add_args_to_functions_list(f, "round", 2)
+    assert cf.eval_functions(5.333, round2d_v2) == 5.33
+    # Test imports
+    f = cf.construct_functions_list("math.comb")
+    choose5 = cf.add_args_to_functions_list(f, "math.comb", 5)
+    assert cf.eval_functions(10, choose5) == 252
+    # Test chain of functions

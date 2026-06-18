@@ -8,7 +8,7 @@ def _compose_functions(*functions):
 
 
 # Helper to bundle multi-argument functions
-def bundle_function_args(func, *args, **kwargs):
+def _bundle_args(func, *args, **kwargs):
     """Combine a function and its *args into one object to pass through eval_functions."""
     return lambda x: functools.partial(func, x)(*args, **kwargs)
 
@@ -16,8 +16,16 @@ def bundle_function_args(func, *args, **kwargs):
 # Evaluate a composition of single-argument functions
 def eval_functions(input, *functions):
     """Evaluate a composition of single-argument functions (NOT function name strings).
-    For multiple arguments, use bundle_function_args"""
-    functions = _compose_functions(*functions)
+    For multiple arguments, use _bundle_args first."""
+    # Correct for lists versus single arguments
+    fns = list()
+    for fn in functions:
+        if isinstance(fn, (list, tuple)):
+            fns.extend(fn)
+        else:
+            fns.append(fn)
+    # Compute results
+    functions = _compose_functions(*fns)
     return functions(input)
 
 
@@ -97,6 +105,24 @@ def construct_functions_list(stringlist):
     mods = _import_modules_list(modslist)
     # Construct functions
     return _get_functions(mods, funcslist)
+
+
+# Helper to add *args to a functions list
+def add_args_to_functions_list(fns_list, fn_to_edit, *args):
+    """Searches fns_list for the specified function and bundles it with the
+    supplied arguments."""
+    # Input/output cleaning
+    output = list()
+    # Delimited module.function name
+    fn_mod, fn_fn = _parse_funcstring(fn_to_edit)
+    fn_check = fn_mod + "." + fn_fn
+    # Main loop: search fns_list for specific fn_to_edit to add *args
+    for fn in fns_list:
+        curr_name = fn.__module__ + "." + fn.__name__
+        if curr_name == fn_check:
+            fn = _bundle_args(fn, *args)
+        output.append(fn)
+    return output
 
 
 # Evaluate functions from list of [mod.funs,]
