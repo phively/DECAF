@@ -13,6 +13,14 @@ def _bundle_args(func, *args, **kwargs):
     return lambda x: functools.partial(func, x)(*args, **kwargs)
 
 
+# Ensure input is a list/tuple
+def _tolist(input):
+    """Convert input to a list, if not already a list/tuple."""
+    if isinstance(input, (list, tuple)):
+        return input
+    return [input]
+
+
 # Evaluate a composition of single-argument functions
 def eval_functions(input, *functions):
     """Evaluate a composition of single-argument functions (NOT function name strings).
@@ -44,8 +52,7 @@ def _parse_funcstring(funcstring):
 def _parse_functions(funclist):
     mods = list()
     fns = list()
-    if funclist != list(funclist):
-        funclist = [funclist]
+    funclist = _tolist(funclist)
     for fs in funclist:
         mod_fn = _parse_funcstring(fs)
         mods.append(mod_fn[0])
@@ -56,8 +63,7 @@ def _parse_functions(funclist):
 # Return a list of modules
 def _import_modules_list(imports):
     # Convert string to list
-    if imports != list(imports):
-        imports = [imports]
+    imports = _tolist(imports)
     modules = list()
     for i in imports:
         # If module not found, try DECAF.module
@@ -88,9 +94,8 @@ def _get_function(module, funcname):
 # Return a list of executable functions
 def _get_functions(modules, funcnames):
     out = list()
-    if funcnames != list(funcnames):
-        modules = [modules]
-        funcnames = [funcnames]
+    modules = _tolist(modules)
+    funcnames = _tolist(funcnames)
     for m, f in zip(modules, funcnames):
         out.append(_get_function(m, f))
     return out
@@ -108,10 +113,9 @@ def construct_functions_list(stringlist):
 
 
 # Helper to add *args to a functions list
-def add_args_to_functions_list(fns_list, fn_to_edit, *args):
+def _add_args_single_fn(fns_list, fn_to_edit, *args):
     """Searches fns_list for the specified function and bundles it with the
     supplied arguments."""
-    # Input/output cleaning
     output = list()
     # Delimited module.function name
     fn_mod, fn_fn = _parse_funcstring(fn_to_edit)
@@ -122,6 +126,21 @@ def add_args_to_functions_list(fns_list, fn_to_edit, *args):
         if curr_name == fn_check:
             fn = _bundle_args(fn, *args)
         output.append(fn)
+    return output
+
+
+# Helper to add [args] list to corresponding [fn] names
+def add_args_to_functions_list(fns_list, fns_to_edit_list, args_list):
+    """Searches fns_list for each of fns_to_edit and bundle with
+    corresponding args."""
+    # Input/output cleaning
+    fns_to_edit_list = _tolist(fns_to_edit_list)
+    args_list = _tolist(args_list)
+    # Iterate through fns_to_edit and args
+    output = fns_list
+    for fn, args in zip(fns_to_edit_list, args_list):
+        args = _tolist(args)
+        output = _add_args_single_fn(output, fn, *args)
     return output
 
 

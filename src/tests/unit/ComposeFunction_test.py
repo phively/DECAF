@@ -135,10 +135,35 @@ def test_edit_funcstring_with_args():
     f = cf.construct_functions_list("round")
     round2d = cf._bundle_args(f[0], 2)
     assert cf.eval_functions(5.333, round2d) == 5.33
-    round2d_v2 = cf.add_args_to_functions_list(f, "round", 2)
+    round2d_v2 = cf._add_args_single_fn(f, "round", 2)
     assert cf.eval_functions(5.333, round2d_v2) == 5.33
     # Test imports
     f = cf.construct_functions_list("math.comb")
-    choose5 = cf.add_args_to_functions_list(f, "math.comb", 5)
+    choose5 = cf._add_args_single_fn(f, "math.comb", 5)
     assert cf.eval_functions(10, choose5) == 252
     # Test chain of functions
+    f = cf.construct_functions_list(["math.sqrt", "round"])
+    sqrtround2 = cf._add_args_single_fn(f, "round", 2)
+    assert cf.eval_functions(5.0, sqrtround2) == 2.24
+    sqrtround0 = cf._add_args_single_fn(f, "round", 0)
+    assert cf.eval_functions(5.0, sqrtround0) == 2.0
+
+
+def test_edit_multiple_fns_with_args():
+    # Single fn to add args
+    f = cf.construct_functions_list(["math.sqrt", "round"])
+    sqrtround2d = cf.add_args_to_functions_list(f, "round", 2)
+    assert cf.eval_functions(5, sqrtround2d) == 2.24
+    # Multiple fns to add args
+    f = cf.construct_functions_list(["math.sqrt", "round", "int", "math.comb"])
+    sqrtround0dcomb5 = cf.add_args_to_functions_list(f, ["round", "math.comb"], [0, 5])
+    assert cf.eval_functions(105, sqrtround0dcomb5) == 252
+    assert cf.eval_functions(26, sqrtround0dcomb5) == 1
+    # Multiple args within one fn
+    f = cf.construct_functions_list(["math.sqrt", "round", "int", "pow"])
+    sqrtround0pow5mod3 = cf.add_args_to_functions_list(f, ["round", "pow"], [0, [5, 3]])
+    assert cf.eval_functions(101, sqrtround0pow5mod3) == 1
+    assert cf.eval_functions(26.25, sqrtround0pow5mod3) == 2
+    sqrt_etc_tpl = cf.add_args_to_functions_list(f, ["round", "pow"], [0, (5, 3)])
+    assert cf.eval_functions(101, sqrt_etc_tpl) == 1
+    assert cf.eval_functions(26.25, sqrt_etc_tpl) == 2
