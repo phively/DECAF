@@ -115,7 +115,7 @@ def construct_functions_list(stringlist):
 # Helper to add *args to a functions list
 def _add_args_single_fn(fns_list, fn_to_edit, *args):
     """Searches fns_list for the specified function and bundles it with the
-    supplied arguments."""
+    supplied *args."""
     output = list()
     # Delimited module.function name
     fn_mod, fn_fn = _parse_funcstring(fn_to_edit)
@@ -130,17 +130,29 @@ def _add_args_single_fn(fns_list, fn_to_edit, *args):
 
 
 # Helper to add [args] list to corresponding [fn] names
-def add_args_to_functions_list(fns_list, fns_to_edit_list, args_list):
-    """Searches fns_list for each of fns_to_edit and bundle with
-    corresponding args."""
+def add_args_to_functions_list(fns_list, fns_to_edit):
+    """
+    Searches fns_list for each of fns_to_edit and bundle with embedded args.
+
+    Single function to edit:
+    ["fn_name", arg1, arg2, ...]
+
+    Multiple functions to edit:
+    [
+        [fn_name_1, arg1, arg2, ...],
+        [fn_name_2, arg1, arg2, ...]
+    ]
+    """
     # Input/output cleaning
-    fns_to_edit_list = _tolist(fns_to_edit_list)
-    args_list = _tolist(args_list)
-    # Iterate through fns_to_edit and args
+    fns_to_edit = _tolist(fns_to_edit)
+    # Check if list is properly nested
+    if isinstance(fns_to_edit[0], str):
+        fns_to_edit = [fns_to_edit]
+    # Iterate through fns_to_edit
     output = fns_list
-    for fn, args in zip(fns_to_edit_list, args_list):
-        args = _tolist(args)
-        output = _add_args_single_fn(output, fn, *args)
+    for fns in fns_to_edit:
+        fn_name, *args = fns
+        output = _add_args_single_fn(output, fn_name, *args)
     return output
 
 
@@ -172,7 +184,10 @@ def eval_functions_show_work(df, first_col, stringlist, col_names):
         col_names
     ), "Mismatch: functions and new_col_names must be equal length"
     # Setup
-    funcs = construct_functions_list(stringlist)
+    if isinstance(stringlist[0], str):
+        funcs = construct_functions_list(stringlist)
+    else:
+        funcs = stringlist
     curr_col = first_col  # next working column
     # Iterate through functions and column names
     for f, cn in zip(funcs, col_names):

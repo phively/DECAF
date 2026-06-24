@@ -32,10 +32,16 @@ def fuzzy_match_companies(
     # Construct proc functions list
     fns_proclist = cf.construct_functions_list(fns_proc)
     # Special cases: need args for fuzzy_match_pairwise and score_threshold
+    fns_to_update = [
+        ["FuzzyMatch.fuzzy_match_pairwise", "clean2"],
+        ["FuzzyMatch.score_threshold", threshold_high, threshold_low],
+    ]
+    fns_proc = cf.add_args_to_functions_list(fns_proclist, fns_to_update)
 
     # Fuzzy match
     data["scores"] = fm.fuzzy_match_pairwise(data["clean1"], data["clean2"])
     data["match"] = fm.score_threshold(data["scores"], threshold_high, threshold_low)
+    # cf.eval_functions_show_work(data, "clean1", fns_proc, new_col_names)
 
     # Write file
     if output_file is not None:

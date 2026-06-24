@@ -152,18 +152,17 @@ def test_edit_funcstring_with_args():
 def test_edit_multiple_fns_with_args():
     # Single fn to add args
     f = cf.construct_functions_list(["math.sqrt", "round"])
-    sqrtround2d = cf.add_args_to_functions_list(f, "round", 2)
+    sqrtround2d = cf.add_args_to_functions_list(f, ["round", 2])
     assert cf.eval_functions(5, sqrtround2d) == 2.24
     # Multiple fns to add args
     f = cf.construct_functions_list(["math.sqrt", "round", "int", "math.comb"])
-    sqrtround0dcomb5 = cf.add_args_to_functions_list(f, ["round", "math.comb"], [0, 5])
+    sqrtround0dcomb5 = cf.add_args_to_functions_list(
+        f, [["round", 0], ["math.comb", 5]]
+    )
     assert cf.eval_functions(105, sqrtround0dcomb5) == 252
     assert cf.eval_functions(26, sqrtround0dcomb5) == 1
     # Multiple args within one fn
     f = cf.construct_functions_list(["math.sqrt", "round", "int", "pow"])
-    sqrtround0pow5mod3 = cf.add_args_to_functions_list(f, ["round", "pow"], [0, [5, 3]])
+    sqrtround0pow5mod3 = cf.add_args_to_functions_list(f, [["round", 0], ["pow", 5, 3]])
     assert cf.eval_functions(101, sqrtround0pow5mod3) == 1
     assert cf.eval_functions(26.25, sqrtround0pow5mod3) == 2
-    sqrt_etc_tpl = cf.add_args_to_functions_list(f, ["round", "pow"], [0, (5, 3)])
-    assert cf.eval_functions(101, sqrt_etc_tpl) == 1
-    assert cf.eval_functions(26.25, sqrt_etc_tpl) == 2
