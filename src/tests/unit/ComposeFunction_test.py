@@ -1,6 +1,6 @@
 from DECAF import ComposeFunction as cf
-from TestFuncs import tuplesquare  # type: ignore
-from TestFuncs import tuplesqrt  # type: ignore
+from tests.TestFuncs import tuplesquare
+from tests.TestFuncs import tuplesqrt
 import pandas as pd
 import math
 import builtins

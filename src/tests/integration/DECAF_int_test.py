@@ -2,7 +2,7 @@ from DECAF import DECAF
 from DECAF import DatafileIO as dio
 from DECAF import ConfigReader as cr
 import numpy as np
-from TestFuncs import set_test_path
+from tests.TestFuncs import set_test_path
 
 path = set_test_path()
 
