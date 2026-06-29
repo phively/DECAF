@@ -175,19 +175,20 @@ def eval_functions_list(input, stringlist):
 
 
 # Sequentially evaluate functions on a dataframe column, saving each intermediate step
-def eval_functions_show_work(df, first_col, stringlist, col_names):
-    """On input, evaluate an ordered list of strings representing 'module.function'
-    names and save each as an intermediate step using the provided list of column names.
+def eval_functions_show_work(df, first_col, func_list, col_names):
+    """On input, evaluate an ordered list of functions, or strings representing
+    'module.function' names, and save each as an intermediate step using the provided
+    list of column names.
     """
     # Error check
-    assert len(stringlist) == len(
+    assert len(func_list) == len(
         col_names
     ), "Mismatch: functions and new_col_names must be equal length"
     # Setup
-    if isinstance(stringlist[0], str):
-        funcs = construct_functions_list(stringlist)
+    if isinstance(func_list[0], str):
+        funcs = construct_functions_list(func_list)
     else:
-        funcs = stringlist
+        funcs = func_list
     curr_col = first_col  # next working column
     # Iterate through functions and column names
     for f, cn in zip(funcs, col_names):

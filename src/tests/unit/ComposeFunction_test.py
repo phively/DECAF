@@ -113,6 +113,11 @@ def test_eval_show_work():
     )
     assert (result2["square2"].tolist()) == list(ts)
     assert (result2["sqrt2"].tolist()) == list(tsr)
+    # Test prebuilt functions
+    fns = cf.construct_functions_list(["TestFuncs.tuplesquare", "TestFuncs.tuplesqrt"])
+    result = cf.eval_functions_show_work(nums, "n", fns, ["square3", "sqrt3"])
+    assert (result2["square3"].tolist()) == list(ts)
+    assert (result2["sqrt3"].tolist()) == list(tsr)
 
 
 def test_compose_functions_with_args():
