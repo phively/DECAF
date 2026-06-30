@@ -7,10 +7,10 @@ DECAF provides an extensible framework for performing common data cleaning tasks
 
 ~~~
 # Install from GitHub dist (recommended)
-pip install "https://github.com/phively/DECAF/releases/download/0.1.1/decaf-0.1.1.tar.gz"
+pip install "https://github.com/phively/DECAF/releases/download/0.2.0/decaf-0.2.0.tar.gz"
 
 # Install local version
-python -m pip install FILEPATH\decaf-0.1.1.tar.gz
+python -m pip install FILEPATH\decaf-0.2.0.tar.gz
 
 # Compile source
 python -m build
@@ -28,7 +28,7 @@ Other modules should not have dependencies on each other.
 * String parsing libraries covering common data types: phone number, email, address...
 * Exact and fuzzy match options
 * RegEx compatibility, possibly some kind of assistant
-* Easy creation of compound operations using config files
+- [x] Easy creation of compound operations using config files
 
 ## To investigate
 
