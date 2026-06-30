@@ -6,7 +6,7 @@ import unicodedata
 def _safe_string(input):
     if input is None:
         input = ""
-    elif type(input) == float or type(input) == int:
+    elif isinstance(input, (float, int)):
         input = str(input)
     return input
 

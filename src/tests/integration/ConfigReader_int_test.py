@@ -1,7 +1,7 @@
 from DECAF import ConfigReader as cr
 from DECAF import ComposeFunction as cf
 import pandas as pd
-from TestFuncs import set_test_path
+from tests.TestFuncs import set_test_path
 
 path = set_test_path()
 

@@ -1,6 +1,6 @@
 [project]
 name = "DECAF"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
   { name="Paul Hively" },
 ]
@@ -11,8 +11,10 @@ requires-python = ">=3.12"
 dependencies = [
   "cleanco",
   "fuzzywuzzy",
+  "python-Levenshtein",
   "numpy",
   "pandas",
+  "openpyxl"
 ]
 
 classifiers = [

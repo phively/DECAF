@@ -1,5 +1,5 @@
 from DECAF import ConfigReader as cr
-from TestFuncs import set_test_path
+from tests.TestFuncs import set_test_path
 
 path = set_test_path()
 config_path = path + "config/"
@@ -64,6 +64,17 @@ def test_parse_functions():
     # Check error handling
     zz = cr.read_config(config_path + "null.ini")
     assert cr.parse_cleaning(zz) is None
+
+
+# Check functions with custom output column names
+def test_parse_functions_named():
+    fmc = cr.read_config(config_path + "processing/fuzzy_match_company.ini")
+    f = cr.parse_functions(fmc)
+    assert f["functions"] == [
+        "FuzzyMatch.fuzzy_match_pairwise",
+        "FuzzyMatch.score_threshold",
+    ]
+    assert f["new_col_names"] == ["scores", "match"]
 
 
 # Ensure type checks work

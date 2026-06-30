@@ -57,7 +57,11 @@ def _parse_to_list(cp, section, key):
 # Parse [functions] value into list
 def parse_functions(cp):
     """Parse ConfigParser functions string."""
-    return _parse_to_list(cp, "control", "functions")
+    fns = _parse_to_list(cp, "control", "functions")
+    colnames = _parse_to_list(cp, "control", "new_col_names")
+    if colnames is not None:
+        return {"functions": fns, "new_col_names": colnames}
+    return fns
 
 
 # Parse [cleaning] value into list

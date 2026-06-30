@@ -59,8 +59,9 @@ def load_files_from_ini(ini_path):
 def dataloader(ini_path):
     """Process ini, loading files with specified function."""
     cp = cr.read_config(ini_path)
-    fns = cr.parse_functions(cp)
-    return cf.eval_functions_list(ini_path, fns)
+    f = cr.parse_functions(cp)
+    fns = cf.eval_functions_list(ini_path, f)
+    return fns
 
 
 # Process ini files and extract relevant functions
@@ -83,6 +84,8 @@ def _cleaning_from_ini(ini_path):
 
 
 def read_functions_from_ini(ini_path):
-    fns = _fns_from_ini(ini_path)
+    f = _fns_from_ini(ini_path)
+    fns = f["functions"]
+    colnames = f["new_col_names"]
     cln = _cleaning_from_ini(ini_path)
-    return {"functions": fns, "cleaning": cln}
+    return {"functions": fns, "new_col_names": colnames, "cleaning": cln}

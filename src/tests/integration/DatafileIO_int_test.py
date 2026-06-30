@@ -1,7 +1,7 @@
 from DECAF import DatafileIO as dio
 from DECAF import ConfigReader as cr
 import pandas as pd
-from TestFuncs import set_test_path
+from tests.TestFuncs import set_test_path
 
 config_path = set_test_path() + "config/loading/"
 

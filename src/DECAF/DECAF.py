@@ -1,7 +1,6 @@
 from DECAF import ComposeFunction as cf
 from DECAF import ConfigReader as cr
 from DECAF import DatafileIO as dio
-from DECAF import FuzzyMatch as fm
 
 
 def fuzzy_match_companies(
@@ -17,7 +16,8 @@ def fuzzy_match_companies(
     config = cr.read_config(ini_file)
     all_fns = dio.read_functions_from_ini(ini_file)
     # Setup - ini params
-    # fns_proc = all_fns["functions"]
+    fns_proc = all_fns["functions"]
+    new_col_names = all_fns["new_col_names"]
     fns_clean = all_fns["cleaning"]
     threshold_high = int(config["parameters"]["threshold_high"])
     threshold_low = int(config["parameters"]["threshold_low"])
@@ -28,9 +28,17 @@ def fuzzy_match_companies(
     data["clean1"] = cf.eval_functions_list(data[col1], fns_clean)
     data["clean2"] = cf.eval_functions_list(data[col2], fns_clean)
 
+    # Construct proc functions list
+    fns_proclist = cf.construct_functions_list(fns_proc)
+    # Special cases: need args for fuzzy_match_pairwise and score_threshold
+    fns_to_update = [
+        ["FuzzyMatch.fuzzy_match_pairwise", data["clean2"]],
+        ["FuzzyMatch.score_threshold", threshold_high, threshold_low],
+    ]
+    fns_proc = cf.add_args_to_functions_list(fns_proclist, fns_to_update)
+
     # Fuzzy match
-    data["scores"] = fm.fuzzy_match_pairwise(data["clean1"], data["clean2"])
-    data["match"] = fm.score_threshold(data["scores"], threshold_high, threshold_low)
+    cf.eval_functions_show_work(data, "clean1", fns_proc, new_col_names)
 
     # Write file
     if output_file is not None:

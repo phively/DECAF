@@ -4,7 +4,7 @@ from DECAF import ConfigReader as cr
 from DECAF import DatafileIO as dio
 import pandas as pd
 import numpy as np
-from TestFuncs import set_test_path
+from tests.TestFuncs import set_test_path
 
 path = set_test_path()
 
@@ -114,14 +114,34 @@ def test_company_fuzzy_match_e2e():
     ref_name = cf.eval_functions_list(companies["reference_name"], clean_fns)
     new_name = cf.eval_functions_list(companies["new_name"], clean_fns)
 
-    # Append and check scores
-    companies["scores"] = fm.fuzzy_match_pairwise(ref_name, new_name)
-    companies["result"] = np.where(
-        fm.score_threshold(companies["scores"], match_threshold), "match", "new"
+    # Append and check scores by hand
+    companies["scores0"] = fm.fuzzy_match_pairwise(ref_name, new_name)
+    companies["result0"] = np.where(
+        fm.score_threshold(companies["scores0"], match_threshold), "match", "new"
     )
+    assert ex.to_list() == companies["result0"].to_list()
+
+    # Append and check scores using match_fns list
+    companies["clean_reference_name"] = ref_name
+    companies["clean_new_name"] = new_name
+    proc_fns = cf.construct_functions_list(match_fns["functions"])
+    proc_fns = cf.add_args_to_functions_list(
+        proc_fns,
+        [
+            ["FuzzyMatch.fuzzy_match_pairwise", companies["clean_new_name"]],
+            ["FuzzyMatch.score_threshold", match_threshold],
+        ],
+    )
+    cf.eval_functions_show_work(
+        companies,
+        "clean_reference_name",
+        proc_fns,
+        match_fns["new_col_names"],
+    )
+    companies["result"] = np.where(companies["match"], "match", "new")
     assert ex.to_list() == companies["result"].to_list()
 
     # Write data to csv
     dio._write_file(companies, filepath=datapath + filesuffix + "_test.csv", type="csv")
     saved_companies = pd.read_csv(datapath + filesuffix + "_test.csv")
-    assert saved_companies["scores"].equals(companies["scores"])
+    assert saved_companies["scores0"].equals(companies["scores0"])

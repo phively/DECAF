@@ -19,3 +19,17 @@ def tuplesquare(xs):
 
 def tuplecube(xs):
     return tuplepow(xs, 3)
+
+
+def tuplesqrt(xs):
+    return tuplepow(xs, 0.5)
+
+
+def col_square(df, x, newcol):
+    df[newcol] = df[x].apply(math.pow, args=(2,))
+    return df
+
+
+def col_sqrt(df, x, newcol):
+    df[newcol] = df[x].apply(math.pow, args=(0.5,))
+    return df
